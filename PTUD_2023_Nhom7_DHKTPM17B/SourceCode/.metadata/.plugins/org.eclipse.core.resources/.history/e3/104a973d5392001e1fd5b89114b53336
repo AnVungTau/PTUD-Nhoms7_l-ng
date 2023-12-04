@@ -1,0 +1,282 @@
+package gui;
+
+import javax.swing.JPanel;
+import com.toedter.calendar.JDateChooser;
+import dao.ChamCongNhanVien_DAO;
+import entity.BangChamCongNhanVien;
+import java.awt.BorderLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
+/**
+ * @author Nguyễn Thành An
+ */
+public class ChamCongNhanVien_Panel extends JPanel implements  ActionListener,ItemListener{
+    private static final long serialVersionUID = 1L;
+    private JTable table;
+    private JTextField txtTimTenNV;
+    private DefaultTableModel model;
+    private ChamCongNhanVien_DAO bangChamCongNhanVien_DAO = new ChamCongNhanVien_DAO();
+    private JDateChooser dateNgayCham;
+	private JButton btnTimTheoTen;
+	private JButton btnChamCong;
+	private JButton btnSua;
+	private JComboBox<String> comboBoxTrangThai;
+    
+    public ChamCongNhanVien_Panel() {
+        setBackground(new Color(255, 255, 255));
+        setBorder(new TitledBorder(null, "CHẤM CÔNG NHÂN VIÊN", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        setLayout(new BorderLayout(0, 0));
+
+        JPanel pnlTop = new JPanel();
+        pnlTop.setBackground(new Color(255, 255, 255));
+        pnlTop.setPreferredSize(new Dimension(10, 110));
+        add(pnlTop, BorderLayout.NORTH);
+        pnlTop.setLayout(null);
+
+        JLabel lblNgayCham = new JLabel("Ngày chấm công:");
+        lblNgayCham.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblNgayCham.setBounds(10, 45, 116, 20);
+        pnlTop.add(lblNgayCham);
+
+        dateNgayCham = new JDateChooser();
+        dateNgayCham.setDate(new Date());
+        dateNgayCham.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dateNgayCham.setLocale(new Locale("vi", "VN"));
+		dateNgayCham.setDateFormatString("dd/MM/yyyy");
+        dateNgayCham.setBounds(116, 45, 102, 20);
+        pnlTop.add(dateNgayCham);
+
+        JLabel lblTmTheoTen = new JLabel("Tìm theo tên:");
+        lblTmTheoTen.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblTmTheoTen.setBounds(297, 45, 116, 20);
+        pnlTop.add(lblTmTheoTen);
+
+        txtTimTenNV = new JTextField();
+        txtTimTenNV.setBounds(387, 46, 116, 20);
+        pnlTop.add(txtTimTenNV);
+        txtTimTenNV.setColumns(10);
+
+        
+        btnTimTheoTen = new JButton("Tìm");
+        btnTimTheoTen.setBounds(504, 45, 64, 23);
+        pnlTop.add(btnTimTheoTen);
+
+        JLabel lblTmTheoPB = new JLabel("Tìm theo phòng ban:");
+        lblTmTheoPB.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblTmTheoPB.setBounds(634, 45, 129, 20);
+        pnlTop.add(lblTmTheoPB);
+
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.setModel(new DefaultComboBoxModel<>(new String[]{"Tất cả"}));
+        comboBox.setBounds(773, 45, 102, 22);
+        pnlTop.add(comboBox);
+
+        JPanel pnlCenter = new JPanel();
+        pnlCenter.setBackground(new Color(255, 255, 255));
+        pnlCenter.setBorder(new TitledBorder(null, "Danh sách chấm công nhân viên", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(pnlCenter, BorderLayout.CENTER);
+        pnlCenter.setLayout(new BorderLayout(0, 0));
+
+        String header[] = {"STT", "Mã nhân viên", "Họ tên", "Trạng thái", "Số giờ tăng ca", "Ghi chú"};
+        model = new DefaultTableModel(header, 0) {
+        	
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnIndex == 3 ? JComboBox.class : Object.class;
+            }
+        };
+
+        JScrollPane scrollPane = new JScrollPane();
+        pnlCenter.add(scrollPane);
+
+        table = new JTable(model);
+        table.setFillsViewportHeight(true);
+        scrollPane.setViewportView(table);
+
+       
+        comboBoxTrangThai = new JComboBox<>(new String[]{"", "Vắng không phép", "Vắng có phép", "Nửa buổi", "Nguyên buổi"});
+        table.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBoxTrangThai));
+
+        JPanel pnlSouth = new JPanel();
+        pnlSouth.setPreferredSize(new Dimension(10, 50));
+        pnlSouth.setBackground(Color.WHITE);
+        pnlCenter.add(pnlSouth, BorderLayout.SOUTH);
+        pnlSouth.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+
+        btnChamCong = new JButton("Chấm công");
+        btnChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        pnlSouth.add(btnChamCong);
+
+        btnSua = new JButton("Lưu");
+        btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnSua.setEnabled(false);
+        pnlSouth.add(btnSua);
+        
+        
+        
+        loadDanhSachChamCong(bangChamCongNhanVien_DAO.getDanhSachChamCongTheoNgay(dateNgayCham.getDate()));
+        
+        btnChamCong.addActionListener(this);
+        btnSua.addActionListener(this);
+        btnTimTheoTen.addActionListener(this);
+    }
+    
+    private void clearTable() {
+		int r = table.getRowCount();
+		while (r > 0) {
+			model.removeRow(r - 1);
+			r--;
+		}
+	}
+    
+    private void loadDanhSachChamCong(ArrayList<BangChamCongNhanVien> ds) {
+        clearTable();
+        int i = 1;
+        for (BangChamCongNhanVien cc : ds) {
+        	String trangThai = null;
+        	if (cc.getTrangThaiDiLam() == 1) {
+				trangThai = "Vắng không phép";
+			}else if (cc.getTrangThaiDiLam() == 2) {
+				trangThai = "Vắng có phép";
+			}else if (cc.getTrangThaiDiLam() == 3) {
+				trangThai = "Nửa buổi";
+			}else if (cc.getTrangThaiDiLam() == 3) {
+				trangThai = "Nguyên buổi";
+			}
+        	  
+        	
+            model.addRow(new Object[] { i++, cc,
+                    cc.getNhanVien().getHoTen(),trangThai, cc.getSoGIoTangCa(), cc.getGhiChu()});
+        }
+    }
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+
+		if (o.equals(btnChamCong)) {
+			int rowCount = table.getRowCount();
+			if(rowCount == 0) {
+				JOptionPane.showMessageDialog(this, "Danh sách rỗng !");
+				return;
+			}
+			
+			ArrayList<BangChamCongNhanVien> dsCC = new ArrayList<>();
+			while (rowCount > 0) {
+				BangChamCongNhanVien cc = (BangChamCongNhanVien) table.getValueAt(rowCount - 1, 1);
+			    
+			    int trangThai = 0;
+			    
+				cc.setNgayCham(dateNgayCham.getDate());
+				cc.setTrangThaiDiLam(trangThai);
+				int soGioTangCa = Integer.parseInt(table.getValueAt(rowCount - 1, 4).toString());
+				cc.setSoGIoTangCa(soGioTangCa);
+				String ghiChu = (String) table.getValueAt(rowCount - 1, 5);
+				cc.setGhiChu(ghiChu);
+				dsCC.add(cc);
+				rowCount--;
+			}
+			
+			int insertSuccess = 0;
+			int insertFail = 0;
+			if (dsCC.size() > 0) {
+				for (BangChamCongNhanVien cc : dsCC) {
+					if(bangChamCongNhanVien_DAO.them(cc)) {
+						insertSuccess++;
+					}else {
+						insertFail++;
+					}
+				}
+			}
+			JOptionPane.showMessageDialog(this,
+					"Insert thành công: " + insertSuccess + "\nInsert thất bại: " + insertFail);
+			//loadDanhSachDaChamCong(bangChamCongCongNhan_dao.getDanhSachDaChamCongTheoNgay(dateNgayCham.getDate()));
+			btnChamCong.setEnabled(false);
+			
+		}
+
+		if (o.equals(btnSua)) {
+			int rowCount = table.getRowCount();
+			if(rowCount == 0) {
+				JOptionPane.showMessageDialog(this, "Danh sách rỗng !");
+				return;
+			}
+			
+			ArrayList<BangChamCongNhanVien> dsCC = new ArrayList<>();
+			while (rowCount > 0) {
+				BangChamCongNhanVien cc = (BangChamCongNhanVien) table.getValueAt(rowCount - 1, 1);
+				int selectedRow = table.getSelectedRow();
+				Object value = table.getValueAt(selectedRow, 3);
+				
+				JComboBox comboBox = (JComboBox) value;
+			    Object selectedItem = comboBox.getSelectedItem();
+			    
+			    int trangThai = 0;
+			    switch (selectedItem.toString()) {
+			        case "Vắng không phép":
+			            trangThai = 1;
+			            break;
+			        case "Vắng có phép":
+			            trangThai = 2;
+			            break;
+			        case "Nửa buổi":
+			            trangThai = 3;
+			            break;
+			        case "Nguyên buổi":
+			            trangThai = 4;
+			            break;
+			    }
+				cc.setTrangThaiDiLam(trangThai);
+				int soGioTangCa = Integer.parseInt(table.getValueAt(rowCount - 1, 4).toString());
+				cc.setSoGIoTangCa(soGioTangCa);
+				String ghiChu = (String) table.getValueAt(rowCount - 1, 5);
+				cc.setGhiChu(ghiChu);
+				dsCC.add(cc);
+				rowCount--;
+			}
+			
+			int updateSuccess = 0;
+			int updateFail = 0;
+			if (dsCC.size() > 0) {
+				for (BangChamCongNhanVien cc : dsCC) {
+					if(bangChamCongNhanVien_DAO.capNhat(cc)) {
+						updateSuccess++;
+					}else {
+						updateFail++;
+					}
+				}
+			}
+			JOptionPane.showMessageDialog(this,
+					"Update thành công: " + updateSuccess + "\nUpdate thất bại: " + updateFail);
+			//loadDanhSachDaChamCong(bangChamCongNhanVien_DAO.getDanhSachDaChamCongTheoNgay(dateNgayCham.getDate()));
+		}
+		
+	}
+	
+}

@@ -1,0 +1,40 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import connectDB.ConnectDB;
+import entity.ToNhom;
+
+
+/**
+ * @author Nguyễn Thành An
+ */
+
+public class ToNhom_DAO {
+	public ArrayList<ToNhom> getAllTo() {
+		ArrayList<ToNhom> dsTo = new ArrayList<ToNhom>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "Select * from ToNhom";
+			Statement sta = con.createStatement();
+
+			ResultSet rs = sta.executeQuery(sql);
+			while (rs.next()) {
+				int maTo = rs.getInt("mato");
+				String tenTo = rs.getString("tenTo");
+				int soLuongCongNhan = rs.getInt("soLuongCongNhan");
+
+				ToNhom to = new ToNhom(maTo, tenTo, soLuongCongNhan);
+				dsTo.add(to);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		return dsTo;
+	}
+
+}

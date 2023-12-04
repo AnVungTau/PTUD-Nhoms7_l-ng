@@ -1,0 +1,378 @@
+package gui;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import com.toedter.calendar.JDateChooser;
+import dao.CongDoan_DAO;
+import dao.BangPhanCong_DAO;
+import dao.SanPham_DAO;
+import entity.CongDoan;
+import entity.CongNhan;
+import entity.BangChamCongCongNhan;
+import entity.BangPhanCong;
+import entity.SanPham;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import javax.swing.JCheckBox;
+/**
+ * @author Nguyễn Hồng Quân
+ */
+public class ChamCongCongNhan_Panel extends JPanel implements ItemListener, ActionListener{
+
+	private static final long serialVersionUID = 1L;
+	private JTable tblPhanCong;
+	private DefaultTableModel model;
+	private JComboBox<SanPham> cmbSanPham;
+	private JComboBox<CongDoan> cmbCongDoan;
+	private SanPham_DAO sanPham_dao = new SanPham_DAO();
+	private CongDoan_DAO congDoan_dao = new CongDoan_DAO();
+	private BangPhanCong_DAO phanCong_dao = new BangPhanCong_DAO();
+	private JButton btnChamCong;
+	private JButton btnSuaNgayCong;
+	private JButton btnXacNhanChamCong;
+	private JButton btnLuu;
+	private JDateChooser dateNgayCham;
+	private JButton btnToanBoDSPC;
+
+
+	public ChamCongCongNhan_Panel() {
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTop = new JPanel();
+		pnlTop.setPreferredSize(new Dimension(10, 110));
+		add(pnlTop, BorderLayout.NORTH);
+		pnlTop.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTitle = new JPanel();
+		pnlTitle.setBackground(new Color(255, 255, 255));
+		pnlTop.add(pnlTitle, BorderLayout.NORTH);
+		
+		JLabel lblTitle = new JLabel("Chấm công công nhân");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		pnlTitle.add(lblTitle);
+		
+		JPanel pnlChucNang = new JPanel();
+		pnlChucNang.setBackground(new Color(255, 255, 255));
+		pnlTop.add(pnlChucNang, BorderLayout.CENTER);
+		pnlChucNang.setLayout(null);
+		
+		JLabel lblNgayCham = new JLabel("Ngày chấm");
+		lblNgayCham.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNgayCham.setBounds(115, 10, 99, 20);
+		pnlChucNang.add(lblNgayCham);
+		
+		dateNgayCham = new JDateChooser();
+		dateNgayCham.setDate(new Date());
+		dateNgayCham.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dateNgayCham.setLocale(new Locale("vi", "VN"));
+		dateNgayCham.setDateFormatString("dd/MM/yyyy");
+		dateNgayCham.setBounds(125, 40, 110, 25);
+		pnlChucNang.add(dateNgayCham);
+		
+		JLabel lblSanPham = new JLabel("Sản phẩm");
+		lblSanPham.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSanPham.setBounds(315, 10, 99, 20);
+		pnlChucNang.add(lblSanPham);
+		
+		cmbSanPham = new JComboBox<SanPham>();
+		cmbSanPham.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cmbSanPham.setBounds(325, 40, 150, 25);
+		pnlChucNang.add(cmbSanPham);
+		
+		JLabel lblCongDoan = new JLabel("Công đoạn");
+		lblCongDoan.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCongDoan.setBounds(543, 10, 99, 20);
+		pnlChucNang.add(lblCongDoan);
+		
+		cmbCongDoan = new JComboBox<CongDoan>();
+		cmbCongDoan.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		cmbCongDoan.setBounds(553, 40, 150, 25);
+		pnlChucNang.add(cmbCongDoan);
+		
+		btnToanBoDSPC = new JButton("Tất cả DS phân công");
+		btnToanBoDSPC.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnToanBoDSPC.setBounds(816, 40, 150, 25);
+		pnlChucNang.add(btnToanBoDSPC);
+		
+		JPanel pnlCenter = new JPanel();
+		pnlCenter.setBackground(new Color(255, 255, 255));
+		pnlCenter.setBorder(new TitledBorder(null, "Danh s\u00E1ch c\u00F4ng nh\u00E2n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		add(pnlCenter, BorderLayout.CENTER);
+		
+		String header[] = {"STT", "Mã CN", "Họ tên", "Sản phẩm", "Công đoạn", "Số lượng PC", "Số lượng HT", "Trạng thái"};
+		model = new DefaultTableModel(header, 0) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return column == 6;
+			}
+			
+			 @Override
+			public Class<?> getColumnClass(int columnIndex) {
+				 if (columnIndex == 7) {
+					 return Boolean.class;
+				 }
+				 return super.getColumnClass(columnIndex);
+			}
+		};
+		
+		
+		pnlCenter.setLayout(new BorderLayout(0, 0));
+		JScrollPane scrollPane = new JScrollPane();
+		pnlCenter.add(scrollPane);
+		
+		tblPhanCong = new JTable(model);
+		tblPhanCong.setSelectionForeground(new Color(0, 0, 0));
+		tblPhanCong.setSelectionBackground(new Color(128, 255, 255));
+		tblPhanCong.setRowHeight(20);
+		tblPhanCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		tblPhanCong.getColumnModel().getColumn(7).setCellRenderer(new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            	JCheckBox checkBox = new JCheckBox();
+            	checkBox.setHorizontalAlignment(CENTER);
+                checkBox.setSelected((Boolean) value);
+                
+                return checkBox;
+            }
+        });
+		
+
+		
+		tblPhanCong.setFillsViewportHeight(true);
+		scrollPane.setViewportView(tblPhanCong);
+		JPanel pnlSouth = new JPanel();
+		pnlSouth.setPreferredSize(new Dimension(10, 30));
+		pnlSouth.setBackground(new Color(255, 255, 255));
+		add(pnlSouth, BorderLayout.SOUTH);
+		pnlSouth.setLayout(null);
+
+		
+		btnChamCong = new JButton("Chấm công");
+		btnChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnChamCong.setBounds(708, 1, 100, 25);
+		pnlSouth.add(btnChamCong);
+		
+		btnSuaNgayCong = new JButton("Sửa ngày công");
+		btnSuaNgayCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnSuaNgayCong.setBounds(399, 1, 120, 25);
+		pnlSouth.add(btnSuaNgayCong);
+		
+		btnXacNhanChamCong = new JButton("Xác nhận");
+		btnXacNhanChamCong.setVisible(false);
+		btnXacNhanChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnXacNhanChamCong.setBounds(830, 1, 100, 25);
+		pnlSouth.add(btnXacNhanChamCong);
+		
+		btnLuu = new JButton("Lưu");
+		btnLuu.setVisible(false);
+		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLuu.setBounds(535, 1, 120, 25);
+		pnlSouth.add(btnLuu);
+		
+		loadSanPham(sanPham_dao.getAllSanPham());
+		loadCongDoan(congDoan_dao.getAllCongDoanTheoMaSanPham(cmbSanPham.getItemAt(0)));
+		
+		loadDanhSachPhanCong(phanCong_dao.getDanhSachPhanCongTheoTrangThaiHoanThanh(0));
+
+		cmbSanPham.addItemListener(this);
+		cmbCongDoan.addItemListener(this);
+		btnChamCong.addActionListener(this);
+		btnLuu.addActionListener(this);
+		btnSuaNgayCong.addActionListener(this);
+		btnXacNhanChamCong.addActionListener(this);
+		btnToanBoDSPC.addActionListener(this);
+		
+		setDynamicRange(tblPhanCong);
+	}
+	
+//	tblPhanCong.getColumnModel().getColumn(6).setCellEditor(new IntegerCellEditor());
+// Đặt giá trị là số nguyên
+//    static class IntegerCellEditor extends DefaultCellEditor {
+//        public IntegerCellEditor() {
+//            super(new JTextField());
+//            JTextField textField = (JTextField) getComponent();
+//            textField.setDocument(new PlainDocument() {
+//                @Override
+//                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+//                    try {
+//                    	int value = Integer.parseInt(str);
+//
+//                        // Check if the value is within the desired range (e.g., 0 to 120)
+//                        if (value >= 0 && value <= 120) {
+//                            super.insertString(offs, str, a);
+//                        }
+//                    } catch (NumberFormatException e) {
+//                    }
+//                }
+//            });
+//        }
+//    }
+	
+//Cách 2
+    static class IntegerCellEditor extends DefaultCellEditor {
+        private int min;
+        private int max;
+
+        public IntegerCellEditor(int min, int max) {
+            super(new JTextField());
+            JTextField textField = (JTextField) getComponent();
+            textField.setDocument(new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    try {
+                    	String currentText = getText(0, getLength());
+                        String newValue = currentText.substring(0, offs) + str + currentText.substring(offs);
+
+                        // Check if the new value is within the specified range
+                        int value = Integer.parseInt(newValue);
+                        if (value >= min && value <= max) {
+                            super.insertString(offs, str, a);
+                        }
+                    } catch (NumberFormatException e) {
+                        // Ignore non-integer input
+                    }
+                }
+            });
+            this.min = min;
+            this.max = max;
+        }
+
+        public int getMin() {
+            return min;
+        }
+
+        public int getMax() {
+            return max;
+        }
+    }
+
+    static void setDynamicRange(JTable table) {
+    	TableColumnModel columnModel = table.getColumnModel();
+        for (int i = 0; i < table.getRowCount(); i++) {
+            int min = 0;
+            int max = (int) table.getValueAt(i, 6);
+            columnModel.getColumn(6).setCellEditor(new IntegerCellEditor(min, max));
+        }
+    }
+    
+    
+	private void clearTable() {
+		int r = tblPhanCong.getRowCount();
+		while(r > 0) {
+			model.removeRow(r-1);
+			r--;
+		}
+	}
+	
+	private void loadSanPham(ArrayList<SanPham> ds) {
+		cmbSanPham.removeAllItems();
+		for (SanPham sp : ds) {
+			cmbSanPham.addItem(sp);
+		}
+	}
+	
+	private void loadCongDoan(ArrayList<CongDoan> ds) {
+		cmbCongDoan.removeAllItems();
+		for (CongDoan cd : ds) {
+			cmbCongDoan.addItem(cd);
+		}
+	}
+	
+	private void loadDanhSachPhanCong(ArrayList<BangPhanCong> ds) {
+		clearTable();
+		int i = 1;
+		for (BangPhanCong pc: ds) {
+			boolean trangThai = (pc.getTrangThai() == 1) ? true : false;
+			model.addRow(new Object[] {i++, pc.getCongNhan().getMaCN(), pc.getCongNhan(), pc.getCongDoan().getSp().getTenSP(), pc.getCongDoan(), pc.getSoLuongPC(), pc.getSoLuongPC(), trangThai});
+		}
+	}
+	
+//	private BangChamCongCongNhan revertBangChamCongCongNhanFromTable(int row) {
+//		CongNhan cn = (CongNhan) tblPhanCong.getValueAt(row, 2);
+//		CongDoan cd = (CongDoan) tblPhanCong.getValueAt(row, 4);
+//		Date dateNgay = (Date) dateNgayCham.getDate();
+//		int soLuongLam = Integer.parseInt(tblPhanCong.getValueAt(row, 6).toString()) ;
+//		int trangThai = 1;
+//		return bchamcong = new 
+//	}
+	
+	private void themNgayCong() {
+//		BangChamCongCongNhan bchamcong = 
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+			Object o = e.getSource();
+			
+			if(o.equals(cmbSanPham)) {
+				SanPham sp = (SanPham) cmbSanPham.getSelectedItem();
+				loadCongDoan(congDoan_dao.getAllCongDoanTheoMaSanPham(sp));
+			}
+			
+			if(o.equals(cmbCongDoan)) {
+				CongDoan cd = (CongDoan) cmbCongDoan.getSelectedItem();
+				SanPham sp = (SanPham) cmbSanPham.getSelectedItem();
+				loadDanhSachPhanCong(phanCong_dao.getDanhSachPhanCongTheoTrangThaiVaTheoCongDoan_SanPham(cd, sp, 0));
+			}
+		}	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		
+		if(o.equals(btnChamCong)) {
+			btnSuaNgayCong.setVisible(false);
+			btnXacNhanChamCong.setVisible(true);
+			dateNgayCham.setDate(new Date());
+			
+			
+			
+		}
+		
+		if(o.equals(btnToanBoDSPC)) {
+			loadDanhSachPhanCong(phanCong_dao.getDanhSachPhanCongTheoTrangThaiHoanThanh(0));
+		}
+		
+		if(o.equals(btnLuu)) {
+			
+		}
+		
+		if(o.equals(btnSuaNgayCong)) {
+			
+		}
+		
+		if(o.equals(btnXacNhanChamCong)) {
+			btnSuaNgayCong.setVisible(true);
+			btnXacNhanChamCong.setVisible(false);
+		}
+		
+	}
+}

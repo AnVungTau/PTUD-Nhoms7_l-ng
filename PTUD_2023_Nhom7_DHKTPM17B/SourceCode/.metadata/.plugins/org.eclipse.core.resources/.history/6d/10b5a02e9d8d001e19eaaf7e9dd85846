@@ -1,0 +1,16 @@
+package gui;
+
+import javax.swing.JPanel;
+
+public class ToNhom_Panel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Create the panel.
+	 */
+	public ToNhom_Panel() {
+
+	}
+
+}

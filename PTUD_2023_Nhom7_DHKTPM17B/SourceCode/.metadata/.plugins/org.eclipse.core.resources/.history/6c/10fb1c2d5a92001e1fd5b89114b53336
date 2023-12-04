@@ -1,0 +1,344 @@
+package gui;
+
+import javax.swing.JPanel;
+import com.toedter.calendar.JDateChooser;
+import dao.ChamCongNhanVien_DAO;
+import entity.BangChamCongNhanVien;
+import java.awt.BorderLayout;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import java.awt.Font;
+import java.awt.Color;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
+import javax.swing.SwingConstants;
+/**
+ * @author Nguyễn Thành An
+ */
+public class ChamCongNhanVien_Panel extends JPanel implements  ActionListener,ItemListener{
+    private static final long serialVersionUID = 1L;
+    private JTable tblChamCong;
+    private JTextField txtTimTenNV;
+    private DefaultTableModel model;
+    private ChamCongNhanVien_DAO bangChamCongNhanVien_DAO = new ChamCongNhanVien_DAO();
+    private JDateChooser dateNgayCham;
+	private JButton btnTimTheoTen;
+	private JButton btnChamCong;
+	private JButton btnSua;
+	private JComboBox<String> comboBoxTrangThai;
+	private JButton btnDSChuaCham;
+    
+    public ChamCongNhanVien_Panel() {
+        setBackground(new Color(255, 255, 255));
+        setBorder(new TitledBorder(null, "CHẤM CÔNG NHÂN VIÊN", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        setLayout(new BorderLayout(0, 0));
+
+        JPanel pnlTop = new JPanel();
+        pnlTop.setBackground(new Color(255, 255, 255));
+        pnlTop.setPreferredSize(new Dimension(10, 180));
+        add(pnlTop, BorderLayout.NORTH);
+        pnlTop.setLayout(null);
+
+        JLabel lblNgayCham = new JLabel("Ngày chấm công:");
+        lblNgayCham.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblNgayCham.setBounds(10, 45, 116, 25);
+        pnlTop.add(lblNgayCham);
+
+        dateNgayCham = new JDateChooser();
+        dateNgayCham.setDate(new Date());
+        dateNgayCham.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		dateNgayCham.setLocale(new Locale("vi", "VN"));
+		dateNgayCham.setDateFormatString("dd/MM/yyyy");
+        dateNgayCham.setBounds(116, 45, 150, 25);
+        pnlTop.add(dateNgayCham);
+
+        JLabel lblTmTheoTen = new JLabel("Tìm theo tên:");
+        lblTmTheoTen.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblTmTheoTen.setBounds(297, 45, 116, 25);
+        pnlTop.add(lblTmTheoTen);
+
+        txtTimTenNV = new JTextField();
+        txtTimTenNV.setBounds(387, 46, 116, 25);
+        pnlTop.add(txtTimTenNV);
+        txtTimTenNV.setColumns(10);
+
+        
+        btnTimTheoTen = new JButton("Tìm");
+        btnTimTheoTen.setBounds(504, 45, 64, 30);
+        pnlTop.add(btnTimTheoTen);
+
+        JLabel lblTmTheoPB = new JLabel("Tìm theo phòng ban:");
+        lblTmTheoPB.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblTmTheoPB.setBounds(634, 45, 129, 25);
+        pnlTop.add(lblTmTheoPB);
+
+        JComboBox<String> comboBox = new JComboBox<>();
+        comboBox.setModel(new DefaultComboBoxModel<>(new String[]{"Tất cả"}));
+        comboBox.setBounds(773, 45, 150, 25);
+        pnlTop.add(comboBox);
+        
+        JButton btnDSDaCham = new JButton("DS đã chấm");
+        btnDSDaCham.setHorizontalAlignment(SwingConstants.LEFT);
+        btnDSDaCham.setBounds(116, 120, 150, 30);
+        pnlTop.add(btnDSDaCham);
+        
+        btnDSChuaCham = new JButton("DS chưa chấm");
+        btnDSChuaCham.setHorizontalAlignment(SwingConstants.LEFT);
+        btnDSChuaCham.setBounds(116, 80, 150, 30);
+        pnlTop.add(btnDSChuaCham);
+
+        JPanel pnlCenter = new JPanel();
+        pnlCenter.setBackground(new Color(255, 255, 255));
+        pnlCenter.setBorder(new TitledBorder(null, "Danh sách chấm công nhân viên", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        add(pnlCenter, BorderLayout.CENTER);
+        pnlCenter.setLayout(new BorderLayout(0, 0));
+
+        String header[] = {"STT", "Mã nhân viên", "Họ tên", "Trạng thái", "Số giờ tăng ca", "Ghi chú"};
+        model = new DefaultTableModel(header, 0) {
+        	private static int clamp(Number value, int min, int max) {
+		        return Math.min(Math.max(value.intValue(), min), max);
+		    }
+        	
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+            	if(columnIndex == 3) {
+            		return JComboBox.class;
+            	}
+                
+                if(columnIndex == 4) {
+					return Integer.class;
+				}
+				return super.getColumnClass(columnIndex);
+            }
+            
+            @Override
+			public void setValueAt(Object value, int row, int column) {
+			    if (column == 4 && value instanceof Number) {
+			        super.setValueAt(clamp((Number) value, 0, 4), row, column);
+			    } else {
+			        super.setValueAt(value, row, column);
+			    }
+			}
+            
+        };
+        comboBoxTrangThai = new JComboBox<>(new String[]{"Nguyên buổi", "Nửa buổi", "Vắng không phép", "Vắng có phép"});
+        JScrollPane scrollPane = new JScrollPane();
+        pnlCenter.add(scrollPane);
+
+        tblChamCong = new JTable(model);
+        tblChamCong.setSelectionForeground(new Color(255, 255, 255));
+        tblChamCong.setSelectionBackground(new Color(0, 128, 255));
+        tblChamCong.setRowHeight(20);
+        tblChamCong.getColumnModel().getColumn(3).setCellEditor(new DefaultCellEditor(comboBoxTrangThai));
+        tblChamCong.getColumnModel().getColumn(3).setCellRenderer(new ComboBoxTableCellRenderer());
+
+        
+        tblChamCong.setFillsViewportHeight(true);
+        scrollPane.setViewportView(tblChamCong);
+
+        JPanel pnlSouth = new JPanel();
+        pnlSouth.setPreferredSize(new Dimension(10, 50));
+        pnlSouth.setBackground(Color.WHITE);
+        pnlCenter.add(pnlSouth, BorderLayout.SOUTH);
+        pnlSouth.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
+
+        btnChamCong = new JButton("Chấm công");
+        btnChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        pnlSouth.add(btnChamCong);
+
+        btnSua = new JButton("Lưu");
+        btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnSua.setEnabled(false);
+        pnlSouth.add(btnSua);
+        
+        
+        
+        loadDanhSachChamCong(bangChamCongNhanVien_DAO.getDanhSachChamCongTheoNgay(dateNgayCham.getDate()));
+        
+        btnDSChuaCham.addActionListener(this);
+        btnChamCong.addActionListener(this);
+        btnSua.addActionListener(this);
+        btnTimTheoTen.addActionListener(this);
+    }
+    
+    private static class ComboBoxTableCellRenderer extends DefaultTableCellRenderer implements TableCellRenderer {
+        @Override
+        public java.awt.Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            if (value instanceof JComboBox) {
+                return (JComboBox) value;
+            }
+            return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        }
+    }
+    
+    private void clearTable() {
+		int r = tblChamCong.getRowCount();
+		while (r > 0) {
+			model.removeRow(r - 1);
+			r--;
+		}
+	}
+    
+    private void loadDanhSachChamCong(ArrayList<BangChamCongNhanVien> ds) {
+        clearTable();
+        int i = 1;
+        String str = new String("Nguyên buổi");
+        for (BangChamCongNhanVien cc : ds) {    	        	
+            model.addRow(new Object[] { i++, cc,
+                    cc.getNhanVien().getHoTen(), str, cc.getSoGIoTangCa(), cc.getGhiChu()});
+        }
+    }
+    
+    private void loadDanhSachDaChamCong(ArrayList<BangChamCongNhanVien> ds) {
+        clearTable();
+        int i = 1;
+        for (BangChamCongNhanVien cc : ds) {
+        	String trangThai = null;
+        	if (cc.getTrangThaiDiLam() == 1) {
+				trangThai = "Vắng không phép";
+			}else if (cc.getTrangThaiDiLam() == 2) {
+				trangThai = "Vắng có phép";
+			}else if (cc.getTrangThaiDiLam() == 3) {
+				trangThai = "Nửa buổi";
+			}else if (cc.getTrangThaiDiLam() == 3) {
+				trangThai = "Nguyên buổi";
+			}
+        	  
+        	
+            model.addRow(new Object[] { i++, cc,
+                    cc.getNhanVien().getHoTen(),trangThai, cc.getSoGIoTangCa(), cc.getGhiChu()});
+        }
+    }
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+
+		if (o.equals(btnChamCong)) {
+			int rowCount = tblChamCong.getRowCount();
+			if(rowCount == 0) {
+				JOptionPane.showMessageDialog(this, "Danh sách rỗng !");
+				return;
+			}
+			
+			ArrayList<BangChamCongNhanVien> dsCC = new ArrayList<>();
+			while (rowCount > 0) {
+				BangChamCongNhanVien cc = (BangChamCongNhanVien) tblChamCong.getValueAt(rowCount - 1, 1);
+			    
+			    int trangThai = 0;
+			    
+				cc.setNgayCham(dateNgayCham.getDate());
+				cc.setTrangThaiDiLam(trangThai);
+				int soGioTangCa = Integer.parseInt(tblChamCong.getValueAt(rowCount - 1, 4).toString());
+				cc.setSoGIoTangCa(soGioTangCa);
+				String ghiChu = (String) tblChamCong.getValueAt(rowCount - 1, 5);
+				cc.setGhiChu(ghiChu);
+				dsCC.add(cc);
+				rowCount--;
+			}
+			
+			int insertSuccess = 0;
+			int insertFail = 0;
+			if (dsCC.size() > 0) {
+				for (BangChamCongNhanVien cc : dsCC) {
+					if(bangChamCongNhanVien_DAO.them(cc)) {
+						insertSuccess++;
+					}else {
+						insertFail++;
+					}
+				}
+			}
+			JOptionPane.showMessageDialog(this,
+					"Insert thành công: " + insertSuccess + "\nInsert thất bại: " + insertFail);
+			//loadDanhSachDaChamCong(bangChamCongCongNhan_dao.getDanhSachDaChamCongTheoNgay(dateNgayCham.getDate()));
+			btnChamCong.setEnabled(false);
+			
+		}
+
+		if (o.equals(btnSua)) {
+			int rowCount = tblChamCong.getRowCount();
+			if(rowCount == 0) {
+				JOptionPane.showMessageDialog(this, "Danh sách rỗng !");
+				return;
+			}
+			
+			ArrayList<BangChamCongNhanVien> dsCC = new ArrayList<>();
+			while (rowCount > 0) {
+				BangChamCongNhanVien cc = (BangChamCongNhanVien) tblChamCong.getValueAt(rowCount - 1, 1);
+				int selectedRow = tblChamCong.getSelectedRow();
+				Object value = tblChamCong.getValueAt(selectedRow, 3);
+				
+				JComboBox comboBox = (JComboBox) value;
+			    Object selectedItem = comboBox.getSelectedItem();
+			    
+			    int trangThai = 0;
+			    switch (selectedItem.toString()) {
+			        case "Vắng không phép":
+			            trangThai = 1;
+			            break;
+			        case "Vắng có phép":
+			            trangThai = 2;
+			            break;
+			        case "Nửa buổi":
+			            trangThai = 3;
+			            break;
+			        case "Nguyên buổi":
+			            trangThai = 4;
+			            break;
+			    }
+				cc.setTrangThaiDiLam(trangThai);
+				int soGioTangCa = Integer.parseInt(tblChamCong.getValueAt(rowCount - 1, 4).toString());
+				cc.setSoGIoTangCa(soGioTangCa);
+				String ghiChu = (String) tblChamCong.getValueAt(rowCount - 1, 5);
+				cc.setGhiChu(ghiChu);
+				dsCC.add(cc);
+				rowCount--;
+			}
+			
+			int updateSuccess = 0;
+			int updateFail = 0;
+			if (dsCC.size() > 0) {
+				for (BangChamCongNhanVien cc : dsCC) {
+					if(bangChamCongNhanVien_DAO.capNhat(cc)) {
+						updateSuccess++;
+					}else {
+						updateFail++;
+					}
+				}
+			}
+			JOptionPane.showMessageDialog(this,
+					"Update thành công: " + updateSuccess + "\nUpdate thất bại: " + updateFail);
+			//loadDanhSachDaChamCong(bangChamCongNhanVien_DAO.getDanhSachDaChamCongTheoNgay(dateNgayCham.getDate()));
+		}
+		
+		if(o.equals(btnDSChuaCham)) {
+			loadDanhSachChamCong(bangChamCongNhanVien_DAO.getDanhSachChamCongTheoNgay(dateNgayCham.getDate()));
+		}
+		
+	}
+}
