@@ -87,9 +87,11 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 		pnlTop.add(txtTimTenNV);
 		txtTimTenNV.setColumns(10);
 
-		btnTimTheoTen = new JButton("Tìm");
+		btnTimTheoTen = new JButton("");
+		btnTimTheoTen.setBorderPainted(false);
+		btnTimTheoTen.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
 		btnTimTheoTen.setBackground(new Color(255, 255, 255));
-		btnTimTheoTen.setBounds(928, 46, 64, 30);
+		btnTimTheoTen.setBounds(928, 46, 30, 30);
 		pnlTop.add(btnTimTheoTen);
 
 		JLabel lblTmTheoPB = new JLabel("Tìm theo phòng ban:");
@@ -102,20 +104,24 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 		pnlTop.add(cmbPhongBan);
 
 		btnDSDaCham = new JButton("DS đã chấm");
+		btnDSDaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
 		btnDSDaCham.setBackground(new Color(255, 255, 255));
 		btnDSDaCham.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDSDaCham.setBounds(448, 123, 150, 30);
 		pnlTop.add(btnDSDaCham);
 
 		btnDSChuaCham = new JButton("DS chưa chấm");
+		btnDSChuaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
 		btnDSChuaCham.setBackground(new Color(255, 255, 255));
 		btnDSChuaCham.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDSChuaCham.setBounds(448, 83, 150, 30);
 		pnlTop.add(btnDSChuaCham);
 
-		btnTimTheoPB = new JButton("Tìm");
+		btnTimTheoPB = new JButton("");
+		btnTimTheoPB.setBorderPainted(false);
+		btnTimTheoPB.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
 		btnTimTheoPB.setBackground(new Color(255, 255, 255));
-		btnTimTheoPB.setBounds(928, 83, 64, 30);
+		btnTimTheoPB.setBounds(928, 83, 30, 30);
 		pnlTop.add(btnTimTheoPB);
 
 		JPanel pnlCenter = new JPanel();
