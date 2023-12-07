@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="dao.SanPham_DAO"/>
-    <fullyQualifiedTypeName name="entity.HopDong"/>
     <fullyQualifiedTypeName name="entity.SanPham"/>
     <fullyQualifiedTypeName name="java.lang.Float"/>
     <fullyQualifiedTypeName name="java.awt.Color"/>
@@ -60,4 +58,6 @@
     <fullyQualifiedTypeName name="java.net.URI"/>
     <fullyQualifiedTypeName name="java.net.URL"/>
     <fullyQualifiedTypeName name="gui.SplashScreen"/>
+    <fullyQualifiedTypeName name="gui.ThongKe_Panel"/>
+    <fullyQualifiedTypeName name="entity.LuongCongNhan"/>
 </qualifiedTypeNameHistroy>
