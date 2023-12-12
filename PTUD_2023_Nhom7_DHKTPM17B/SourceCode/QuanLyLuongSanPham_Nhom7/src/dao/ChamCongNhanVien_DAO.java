@@ -210,4 +210,140 @@ public class ChamCongNhanVien_DAO {
 		}
 		return n > 0;
 	}
+	//Nguyễn Tuấn Hùng
+	public int soNgayLamNguyenNgay(NhanVien nv, int thang, int nam) {
+		PreparedStatement sta = null;
+		int n = 0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select count(trangThaiDiLam) as soNgayLam from BangChamCongNhanVien where maNV = ? and MONTH(ngayChamCong) =? and YEAR(ngayChamCong) = ? and trangThaiDiLam = 1";
+			sta = con.prepareStatement(sql);
+
+			sta.setString(1, nv.getMaNV().toString()	);
+			sta.setInt(2, thang);
+			sta.setInt(3, nam);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sta.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return	n ;
+	}
+	public int soNgayLamNuaNgay(NhanVien nv, int thang, int nam) {
+		PreparedStatement sta = null;
+		int n = 0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select count(trangThaiDiLam) as soNgayLam from BangChamCongNhanVien where maNV = ? and MONTH(ngayChamCong) =? and YEAR(ngayChamCong) = ? and trangThaiDiLam = 2";
+			sta = con.prepareStatement(sql);
+
+			sta.setString(1, nv.getMaNV().toString()	);
+			sta.setInt(2, thang);
+			sta.setInt(3, nam);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sta.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return	n ;
+	}
+	public int soNgayNghiCoPhep(NhanVien nv, int thang, int nam) {
+		PreparedStatement sta = null;
+		int n = 0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select count(trangThaiDiLam) as soNgayLam from BangChamCongNhanVien where maNV = ? and MONTH(ngayChamCong) =? and YEAR(ngayChamCong) = ? and trangThaiDiLam = 3";
+			sta = con.prepareStatement(sql);
+
+			sta.setString(1, nv.getMaNV().toString()	);
+			sta.setInt(2, thang);
+			sta.setInt(3, nam);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sta.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return	n ;
+	}
+	public int soNgayNghiKhongPhep(NhanVien nv, int thang, int nam) {
+		PreparedStatement sta = null;
+		int n = 0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select count(trangThaiDiLam) as soNgayLam from BangChamCongNhanVien where maNV = ? and MONTH(ngayChamCong) =? and YEAR(ngayChamCong) = ? and trangThaiDiLam = 4";
+			sta = con.prepareStatement(sql);
+
+			sta.setString(1, nv.getMaNV().toString()	);
+			sta.setInt(2, thang);
+			sta.setInt(3, nam);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sta.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return	n ;
+	}
+	public int soGioTangCa(NhanVien nv, int thang, int nam) {
+		PreparedStatement sta = null;
+		int n = 0;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "select sum(soGioTangCa) as tongSoGioTangCa from BangChamCongNhanVien where MONTH(ngayChamCong) = ? and YEAR(ngayChamCong) = ? and maNV = ?";
+			sta = con.prepareStatement(sql);
+
+			sta.setString(3, nv.getMaNV().toString());
+			sta.setInt(1, thang);
+			sta.setInt(2, nam);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				n = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sta.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return	n ;
+	}
 }

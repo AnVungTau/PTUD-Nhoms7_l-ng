@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.net.URL;
+
 import com.toedter.calendar.JDateChooser;
 import dao.CongDoan_DAO;
 import dao.BangChamCongCongNhan_DAO;
@@ -116,14 +118,16 @@ public class ChamCongCongNhan_Panel extends JPanel implements ItemListener, Acti
 		btnTimDSDaCham = new JButton("DS đã chấm");
 		btnTimDSDaCham.setHorizontalAlignment(SwingConstants.LEFT);
 		btnTimDSDaCham.setBackground(new Color(255, 255, 255));
-		btnTimDSDaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimDSDaCham = ChamCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimDSDaCham.setIcon(new ImageIcon(urlBtnTimDSDaCham));
 		btnTimDSDaCham.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimDSDaCham.setBounds(414, 103, 150, 30);
 		pnlChucNang.add(btnTimDSDaCham);
 		
 		btnTimDSChuaCham = new JButton("DS chưa chấm");
 		btnTimDSChuaCham.setHorizontalAlignment(SwingConstants.LEFT);
-		btnTimDSChuaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimDSChuaCham = ChamCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimDSChuaCham.setIcon(new ImageIcon(urlBtnTimDSChuaCham));
 		btnTimDSChuaCham.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimDSChuaCham.setBackground(Color.WHITE);
 		btnTimDSChuaCham.setBounds(414, 68, 150, 30);
@@ -140,7 +144,8 @@ public class ChamCongCongNhan_Panel extends JPanel implements ItemListener, Acti
 		pnlChucNang.add(lblTo);
 		
 		btnTimDSToVaCD = new JButton("DS theo tổ & CĐ");
-		btnTimDSToVaCD.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimDSToVaCD = ChamCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimDSToVaCD.setIcon(new ImageIcon(urlBtnTimDSToVaCD));
 		btnTimDSToVaCD.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimDSToVaCD.setBackground(Color.WHITE);
 		btnTimDSToVaCD.setBounds(763, 115, 185, 30);
@@ -148,14 +153,16 @@ public class ChamCongCongNhan_Panel extends JPanel implements ItemListener, Acti
 		
 		btnTimDSTheoTo = new JButton("");
 		btnTimDSTheoTo.setBorderPainted(false);
-		btnTimDSTheoTo.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimDSTheoTo = ChamCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimDSTheoTo.setIcon(new ImageIcon(urlBtnTimDSTheoTo));
 		btnTimDSTheoTo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimDSTheoTo.setBackground(Color.WHITE);
 		btnTimDSTheoTo.setBounds(923, 80, 25, 25);
 		pnlChucNang.add(btnTimDSTheoTo);
 		
 		btnTimDSTheoCD = new JButton("");
-		btnTimDSTheoCD.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimDSTheoCD = ChamCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimDSTheoCD.setIcon(new ImageIcon(urlBtnTimDSTheoCD));
 		btnTimDSTheoCD.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimDSTheoCD.setBorderPainted(false);
 		btnTimDSTheoCD.setBackground(Color.WHITE);
@@ -219,13 +226,15 @@ public class ChamCongCongNhan_Panel extends JPanel implements ItemListener, Acti
 		pnlSouth.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
 
 		btnChamCong = new JButton("Chấm công");
-		btnChamCong.setIcon(new ImageIcon("img\\tick.png"));
+		URL urlBtnChamCong = ChamCongCongNhan_Panel.class.getResource("/img/tick.png");
+		btnChamCong.setIcon(new ImageIcon(urlBtnChamCong));
 		btnChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		pnlSouth.add(btnChamCong);
 		
 		btnSua = new JButton("Lưu");
 		btnSua.setEnabled(false);
-		btnSua.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		URL urlBtnSua = ChamCongCongNhan_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+		btnSua.setIcon(new ImageIcon(urlBtnSua));
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		pnlSouth.add(btnSua);
 

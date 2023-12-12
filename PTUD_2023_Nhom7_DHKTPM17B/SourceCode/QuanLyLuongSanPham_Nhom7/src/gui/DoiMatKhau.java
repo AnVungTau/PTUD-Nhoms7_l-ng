@@ -18,6 +18,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.net.URL;
+
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 /**
@@ -31,7 +33,8 @@ public class DoiMatKhau extends JFrame implements ActionListener, WindowListener
 	private JButton btnLuu;
 	private JButton btnDong;
 	private JLabel lblTBMatKhau;
-
+	private URL urlTBFail = DoiMatKhau.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = DoiMatKhau.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
 
 	public DoiMatKhau() {
 		setTitle("Đổi mật khẩu mới");
@@ -39,7 +42,8 @@ public class DoiMatKhau extends JFrame implements ActionListener, WindowListener
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 400, 250);
 		setLocationRelativeTo(null);
-		ImageIcon icon = new ImageIcon("img//logo_icon.png");
+		URL urlicon = DoiMatKhau.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon(urlicon);
 		setIconImage(icon.getImage());
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(255, 255, 255));
@@ -71,7 +75,7 @@ public class DoiMatKhau extends JFrame implements ActionListener, WindowListener
 		contentPane.add(btnDong);
 		
 		lblTBMatKhau = new JLabel("");
-		lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 		lblTBMatKhau.setBounds(333, 77, 20, 20);
 		contentPane.add(lblTBMatKhau);
 		
@@ -81,9 +85,9 @@ public class DoiMatKhau extends JFrame implements ActionListener, WindowListener
 			public void removeUpdate(DocumentEvent e) {
 				btnLuu.setEnabled(validDataMatKhau());
 				if (validDataMatKhau()) {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 				
@@ -93,9 +97,9 @@ public class DoiMatKhau extends JFrame implements ActionListener, WindowListener
 			public void insertUpdate(DocumentEvent e) {
 				btnLuu.setEnabled(validDataMatKhau());
 				if (validDataMatKhau()) {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}

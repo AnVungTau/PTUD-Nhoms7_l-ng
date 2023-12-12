@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +21,8 @@ public class About extends JFrame implements WindowListener{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 500, 325);
 		setLocationRelativeTo(null);
-		ImageIcon icon = new ImageIcon("img//logo_icon.png");
+		URL urlicon = About.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon(urlicon);
 		setIconImage(icon.getImage());
 		setResizable(false);
 		
@@ -75,7 +78,8 @@ public class About extends JFrame implements WindowListener{
 		JLabel lblHinh = new JLabel("");
 		lblHinh.setBackground(new Color(0, 0, 0));
 		lblHinh.setBounds(2, 2, 496, 303);
-		lblHinh.setIcon(new ImageIcon("img\\SplashScreen.png"));
+		URL urlHinhAnh = About.class.getResource("/img/SplashScreen.png");
+		lblHinh.setIcon(new ImageIcon(urlHinhAnh));
 		add(lblHinh);
 		addWindowListener(this);
 	}

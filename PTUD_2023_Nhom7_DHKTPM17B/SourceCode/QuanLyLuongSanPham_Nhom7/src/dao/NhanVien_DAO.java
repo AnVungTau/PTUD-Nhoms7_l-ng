@@ -531,5 +531,67 @@ public class NhanVien_DAO {
 		}
 		return dsMaNV;
 	}
+	
+	//Nguyễn Tuấn Hùng
+		public ArrayList<NhanVien> getDanhSachNhanVienTheoThangNamChamCong(int thang, int nam){
+		    PreparedStatement sta = null;
+		    ArrayList<NhanVien> dsCCNV = new ArrayList<NhanVien>();
+		    try {
+		        ConnectDB.getInstance();
+		        Connection con = ConnectDB.getConnection();
+		        String sql = "SELECT nv.maNV, nv.hoTen, nv.phuCap, nv.heSoLuong " +
+	                    "FROM NhanVien nv " +
+	                    "JOIN BangChamCongNhanVien bccnv ON nv.maNV = bccnv.maNV " +
+	                    "WHERE MONTH(bccnv.ngayChamCong) = ? AND YEAR(bccnv.ngayChamCong) = ? " +
+	                    "GROUP BY nv.maNV, nv.hoTen, nv.phuCap, nv.heSoLuong";
+		        sta = con.prepareStatement(sql);
+		        sta.setInt(1, thang);
+		        sta.setInt(2, nam);
+		        ResultSet rs = sta.executeQuery();
+		        while(rs.next()) {
+		        	NhanVien nv = new NhanVien();
+		            nv.setMaNV(rs.getString("maNV"));
+		            nv.setHoTen(rs.getString("hoTen"));
+		            nv.setPhuCap(rs.getInt("phuCap"));
+		            nv.setHeSoLuong(rs.getFloat("heSoLuong"));
+		            dsCCNV.add(nv);
+		            
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return dsCCNV;
+		}
+		public ArrayList<NhanVien> getDanhSachNhanVienTheoThangNamChamCongVaMa(int thang, int nam, String ma){
+		    PreparedStatement sta = null;
+		    ArrayList<NhanVien> dsCCNV = new ArrayList<NhanVien>();
+		    try {
+		        ConnectDB.getInstance();
+		        Connection con = ConnectDB.getConnection();
+		        String sql = "SELECT nv.maNV, nv.hoTen, nv.phuCap, nv.heSoLuong " +
+	                    "FROM NhanVien nv " +
+	                    "JOIN BangChamCongNhanVien bccnv ON nv.maNV = bccnv.maNV " +
+	                    "WHERE MONTH(bccnv.ngayChamCong) = ? AND YEAR(bccnv.ngayChamCong) = ? and nv.maNV like ? " +
+	                    "GROUP BY nv.maNV, nv.hoTen, nv.phuCap, nv.heSoLuong";
+		        sta = con.prepareStatement(sql);
+		        sta.setInt(1, thang);
+		        sta.setInt(2, nam);
+		        ma = "%"+ma+"%";
+		        sta.setString(3, ma);
+		        ResultSet rs = sta.executeQuery();
+		        while(rs.next()) {
+		        	NhanVien nv = new NhanVien();
+		            nv.setMaNV(rs.getString("maNV"));
+		            nv.setHoTen(rs.getString("hoTen"));
+		            nv.setPhuCap(rs.getInt("phuCap"));
+		            nv.setHeSoLuong(rs.getFloat("heSoLuong"));
+		            dsCCNV.add(nv);
+		            
+		        }
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		    }
+		    return dsCCNV;
+		}
 
 }

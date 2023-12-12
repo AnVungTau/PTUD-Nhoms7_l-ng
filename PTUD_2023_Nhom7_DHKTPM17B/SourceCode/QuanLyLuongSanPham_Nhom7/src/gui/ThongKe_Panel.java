@@ -5,14 +5,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -21,24 +17,14 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.util.Rotation;
-
-
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.AbstractAction;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.border.EtchedBorder;
@@ -67,11 +53,11 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
 	private JPanel pnl_His;
 	private JComponent pnl_Plot;
 	private ChartPanel layBieuDo_His = new ChartPanel(null);
-	private ChartPanel layBieuDo_Tron= new ChartPanel(null);
 	private ChartPanel layBieuDo_Plot= new ChartPanel(null);
-	private JFreeChart chart_Tron;
 	private JFreeChart chart_Plot;
 	private JFreeChart chart_His;
+	private List<Double> list;
+	private Map<String, Long> map;
 	
 	
 	public ThongKe_Panel() throws SQLException {
@@ -213,7 +199,9 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
         btn_Xem_Plot.addActionListener(this);
         btn_Xem_Plot.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control shift pressed F3"), "buttonAction");
         btn_Xem_Plot.getActionMap().put("buttonAction", new AbstractAction() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
             	btn_Xem_Plot.doClick();
             }
@@ -221,7 +209,9 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
         btn_Xem_His.addActionListener(this);
         btn_Xem_His.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("control shift pressed F2"), "buttonAction");
         btn_Xem_His.getActionMap().put("buttonAction", new AbstractAction() {
-            @Override
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
             	btn_Xem_His.doClick();
             }
@@ -281,7 +271,7 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
 	private void macDinh_His() {
 		String ngayTinhLuong = Integer.parseInt(spn_Thang_His.getValue().toString())+"-"+Integer.parseInt(spn_Year_His.getValue().toString());
 		String title ="Biểu đồ Histogram tiền lương trả cho nhân viên tháng "+ngayTinhLuong;
-		List<Double> list=null;
+		list = null;
 		
 		
 		double[] arr = list.stream().mapToDouble(Double::doubleValue).toArray();
@@ -300,7 +290,7 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
 		spn_DenThang_Plot.setValue(7);
 		spn_DenYear_Plot.setValue(2023);
 		DefaultCategoryDataset datase = new DefaultCategoryDataset();
-		Map<String, Long> map = null;
+		map = null;
 		String title ="Biểu đồ Bar thể hiện tổng tiền lương đã trả cho nhân viên Từ 1-2023 đến 7-2023";
 		
 		
@@ -312,28 +302,5 @@ public class ThongKe_Panel extends JPanel implements ActionListener{
         pnl_Plot.add(layBieuDo_Plot);
         updateUI();
 	}
-	
-	private void xuatFile(JFreeChart chart) {
-		JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION) { 
-            File selectedFile = fileChooser.getSelectedFile(); 
-            String absolutePath = selectedFile.getAbsolutePath();
-            String tr = absolutePath.substring(absolutePath.length() - 4);
-            
-            if(!tr.equals(".png")) {
-            	File newFile = new File(absolutePath+".png");
-            	 selectedFile = newFile;
-            }
-           
-            try {
-				ChartUtilities.saveChartAsPNG(selectedFile, chart, 1280, 720);
-				JOptionPane.showMessageDialog(this, "File đã được lưu tại '"+selectedFile.getAbsolutePath()+"'", "Phần Mềm Tính Lương", 1);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog(this, e, "Phần Mềm Tính Lương", 2);
-				e.printStackTrace();
-			}
-        } else 
-        	JOptionPane.showMessageDialog(this, "Lưu thất bại", "Phần Mềm Tính Lương", 2);
-    }
+
 }

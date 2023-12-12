@@ -25,6 +25,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
@@ -80,7 +81,11 @@ public class PhanCongCongNhan_Panel extends JPanel
 	private JComboBox<String> cmbLoc;
 	private JButton btnXoa;
 	private JButton btnSua;
-
+	private URL urlTim = PhanCongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = PhanCongCongNhan_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlXoa = PhanCongCongNhan_Panel.class.getResource("/img/Pictogrammers-Material-Delete-forever.24.png");
+	private URL urlLamMoi = PhanCongCongNhan_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = PhanCongCongNhan_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
 	public PhanCongCongNhan_Panel() {
 		setLayout(new BorderLayout(0, 0));
 
@@ -159,7 +164,7 @@ public class PhanCongCongNhan_Panel extends JPanel
 		btnThem = new JButton("Thêm");
 		btnThem.setEnabled(false);
 		btnThem.setBackground(new Color(255, 255, 255));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBounds(1156, 120, 110, 30);
 		pnlTop.add(btnThem);
@@ -216,7 +221,7 @@ public class PhanCongCongNhan_Panel extends JPanel
 		
 		btnTimTheoNgay = new JButton("");
 		btnTimTheoNgay.setBorderPainted(false);
-		btnTimTheoNgay.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTimTheoNgay.setIcon(new ImageIcon(urlTim));
 		btnTimTheoNgay.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimTheoNgay.setBackground(Color.WHITE);
 		btnTimTheoNgay.setBounds(265, 40, 25, 25);
@@ -224,13 +229,13 @@ public class PhanCongCongNhan_Panel extends JPanel
 
 		JLabel lblMuiTen = new JLabel("");
 		lblMuiTen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMuiTen.setIcon(new ImageIcon(
-				"img\\forward.png"));
+		URL urlMuiTen = PhanCongCongNhan_Panel.class.getResource("/img/forward.png");
+		lblMuiTen.setIcon(new ImageIcon(urlMuiTen));
 		lblMuiTen.setBounds(680, 205, 96, 64);
 		pnlTop.add(lblMuiTen);
 		
 		btnLamMoi = new JButton("Làm mới");
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setBounds(1156, 80, 110, 30);
@@ -286,7 +291,7 @@ public class PhanCongCongNhan_Panel extends JPanel
 		pnlTim.add(lblLoc);
 		
 		btnXoa = new JButton("Xóa");
-		btnXoa.setIcon(new ImageIcon("img\\Pictogrammers-Material-Delete-forever.24.png"));
+		btnXoa.setIcon(new ImageIcon(urlXoa));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnXoa.setEnabled(false);
 		btnXoa.setBackground(Color.WHITE);
@@ -294,7 +299,7 @@ public class PhanCongCongNhan_Panel extends JPanel
 		pnlTop.add(btnXoa);
 		
 		btnSua = new JButton("Sửa");
-		btnSua.setIcon(new ImageIcon("img\\timkeeping.png"));
+		btnSua.setIcon(new ImageIcon(urlLuu));
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSua.setEnabled(false);
 		btnSua.setBackground(Color.WHITE);

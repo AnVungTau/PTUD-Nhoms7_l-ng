@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
@@ -59,9 +60,12 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 	private JSpinner spnTang = new JSpinner();
 	private JComboBox<String> cmbToaNha = new JComboBox<>();
 	private JComboBox<String> cmbTimKiem = new JComboBox<>();
-	/**
-	 * Create the panel.
-	 */
+	private URL urlTim = CongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = CongNhan_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlLamMoi = CongNhan_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = CongNhan_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+	private URL urlTBFail = CongNhan_Panel.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = CongNhan_Panel.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
 	public PhongBan_Panel() {
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BorderLayout(0, 0));
@@ -173,7 +177,7 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 		btnThem = new JButton("Thêm");
 		btnThem.setEnabled(false);
 		btnThem.setBackground(new Color(255, 255, 255));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBounds(446, 195, 120, 30);
 		pnlTop.add(btnThem);
@@ -181,21 +185,21 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 		btnLuu = new JButton("Lưu");
 		btnLuu.setEnabled(false);
 		btnLuu.setBackground(new Color(255, 255, 255));
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBounds(597, 195, 120, 30);
 		pnlTop.add(btnLuu);
 		
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(new Color(255, 255, 255));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBounds(741, 195, 120, 30);
 		pnlTop.add(btnLamMoi);
 		
 		JLabel lblTBTen = new JLabel("");
 		lblTBTen.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBTen.setIcon(new ImageIcon(urlTBFail));
 		lblTBTen.setBackground(Color.WHITE);
 		lblTBTen.setBounds(651, 100, 25, 25);
 		pnlTop.add(lblTBTen);
@@ -232,7 +236,7 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 		btnTim = new JButton("");
 		btnTim.setBorderPainted(false);
 		btnTim.setBackground(new Color(255, 255, 255));
-		btnTim.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTim.setIcon(new ImageIcon(urlTim));
 		btnTim.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTim.setBounds(493, 5, 25, 25);
 		pnlTim.add(btnTim);
@@ -258,9 +262,9 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 				btnThem.setEnabled(valiDataTenPB());
 				btnLuu.setEnabled(valiDataTenPB());
 				if (valiDataTenPB()) {
-					lblTBTen.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBFail));
 				}
 			}
 			
@@ -269,9 +273,9 @@ public class PhongBan_Panel extends JPanel implements  ActionListener, MouseList
 				btnThem.setEnabled(valiDataTenPB());
 				btnLuu.setEnabled(valiDataTenPB());
 				if (valiDataTenPB()) {
-					lblTBTen.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBFail));
 				}
 			}
 			

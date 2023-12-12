@@ -25,6 +25,7 @@ import javax.swing.DefaultCellEditor;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -89,7 +90,8 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 
 		btnTimTheoTen = new JButton("");
 		btnTimTheoTen.setBorderPainted(false);
-		btnTimTheoTen.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimTheoTen = ChamCongNhanVien_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimTheoTen.setIcon(new ImageIcon(urlBtnTimTheoTen));
 		btnTimTheoTen.setBackground(new Color(255, 255, 255));
 		btnTimTheoTen.setBounds(928, 46, 30, 30);
 		pnlTop.add(btnTimTheoTen);
@@ -104,14 +106,16 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 		pnlTop.add(cmbPhongBan);
 
 		btnDSDaCham = new JButton("DS đã chấm");
-		btnDSDaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnDSDaCham = ChamCongNhanVien_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnDSDaCham.setIcon(new ImageIcon(urlBtnDSDaCham));
 		btnDSDaCham.setBackground(new Color(255, 255, 255));
 		btnDSDaCham.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDSDaCham.setBounds(448, 123, 150, 30);
 		pnlTop.add(btnDSDaCham);
 
 		btnDSChuaCham = new JButton("DS chưa chấm");
-		btnDSChuaCham.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnDSChuaCham = ChamCongNhanVien_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnDSChuaCham.setIcon(new ImageIcon(urlBtnDSChuaCham));
 		btnDSChuaCham.setBackground(new Color(255, 255, 255));
 		btnDSChuaCham.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDSChuaCham.setBounds(448, 83, 150, 30);
@@ -119,7 +123,8 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 
 		btnTimTheoPB = new JButton("");
 		btnTimTheoPB.setBorderPainted(false);
-		btnTimTheoPB.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimTheoPB = ChamCongNhanVien_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimTheoPB.setIcon(new ImageIcon(urlBtnTimTheoPB));
 		btnTimTheoPB.setBackground(new Color(255, 255, 255));
 		btnTimTheoPB.setBounds(928, 83, 30, 30);
 		pnlTop.add(btnTimTheoPB);
@@ -162,7 +167,7 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 
 		};
 		comboBoxTrangThai = new JComboBox<>(
-				new String[] { "Nguyên buổi", "Nửa buổi", "Vắng không phép", "Vắng có phép" });
+				new String[] { "Nguyên ngày", "Nửa ngày", "Vắng không phép", "Vắng có phép" });
 		JScrollPane scrollPane = new JScrollPane();
 		pnlCenter.add(scrollPane);
 
@@ -183,15 +188,15 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 		pnlSouth.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
 
 		btnChamCong = new JButton("Chấm công");
-		btnChamCong.setIcon(new ImageIcon(
-				"img\\tick.png"));
+		URL urlBtnChamCong = ChamCongNhanVien_Panel.class.getResource("/img/tick.png");
+		btnChamCong.setIcon(new ImageIcon(urlBtnChamCong));
 		btnChamCong.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		pnlSouth.add(btnChamCong);
 
 		btnSua = new JButton("Lưu");
 		btnSua.setEnabled(false);
-		btnSua.setIcon(new ImageIcon(
-				"img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		URL urlBtnSua = ChamCongNhanVien_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+		btnSua.setIcon(new ImageIcon(urlBtnSua));
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnSua.setEnabled(false);
 		pnlSouth.add(btnSua);
@@ -239,7 +244,7 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 	private void loadDanhSachChamCong(ArrayList<BangChamCongNhanVien> ds) {
 		clearTable();
 		int i = 1;
-		String str = new String("Nguyên buổi");
+		String str = new String("Nguyên ngày");
 		for (BangChamCongNhanVien cc : ds) {
 			model.addRow(
 					new Object[] { i++, cc, cc.getNhanVien().getHoTen(), str, cc.getSoGIoTangCa(), cc.getGhiChu() });
@@ -252,10 +257,10 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 		for (BangChamCongNhanVien cc : ds) {
 			String trangThai = null;
 			if (cc.getTrangThaiDiLam() == 1) {
-				trangThai = new String("Nguyên buổi");
+				trangThai = new String("Nguyên ngày");
 			}
 			if (cc.getTrangThaiDiLam() == 2) {
-				trangThai = new String("Nửa buổi");
+				trangThai = new String("Nửa ngày");
 			}
 			if (cc.getTrangThaiDiLam() == 3) {
 				trangThai = new String("Vắng không phép");
@@ -292,10 +297,10 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 
 				String trangThaiDiLam = tblChamCong.getValueAt(rowCount - 1, 3).toString();
 				int trangThai = 0;
-				if (trangThaiDiLam.equalsIgnoreCase("Nguyên buổi")) {
+				if (trangThaiDiLam.equalsIgnoreCase("Nguyên ngày")) {
 					trangThai = 1;
 				}
-				if (trangThaiDiLam.equalsIgnoreCase("Nửa buổi")) {
+				if (trangThaiDiLam.equalsIgnoreCase("Nửa ngày")) {
 					trangThai = 2;
 				}
 				if (trangThaiDiLam.equalsIgnoreCase("Vắng không phép")) {
@@ -346,10 +351,10 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 
 				String trangThaiDiLam = tblChamCong.getValueAt(rowCount - 1, 3).toString();
 				int trangThai = 0;
-				if (trangThaiDiLam.equalsIgnoreCase("Nguyên buổi")) {
+				if (trangThaiDiLam.equalsIgnoreCase("Nguyên ngày")) {
 					trangThai = 1;
 				}
-				if (trangThaiDiLam.equalsIgnoreCase("Nửa buổi")) {
+				if (trangThaiDiLam.equalsIgnoreCase("Nửa ngày")) {
 					trangThai = 2;
 				}
 				if (trangThaiDiLam.equalsIgnoreCase("Vắng không phép")) {

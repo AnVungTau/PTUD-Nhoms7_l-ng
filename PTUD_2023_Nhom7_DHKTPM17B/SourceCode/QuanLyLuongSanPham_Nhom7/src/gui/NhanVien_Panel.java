@@ -39,6 +39,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
@@ -95,7 +96,13 @@ public class NhanVien_Panel extends JPanel
 	private JComboBox<String> cmbTim;
 	private JButton btnReLoad;
 	private JTextArea txtDiaChi;
-
+	private URL urlTim = NhanVien_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = NhanVien_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlLamMoi = NhanVien_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = NhanVien_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+	private URL urlTBFail = NhanVien_Panel.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = NhanVien_Panel.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
+	
 	public NhanVien_Panel() {
 		setSize(new Dimension(1300, 750));
 		setBackground(new Color(240, 240, 240));
@@ -110,7 +117,7 @@ public class NhanVien_Panel extends JPanel
 		pnlTop.setLayout(null);
 
 		lblTBNgaySinh = new JLabel("");
-		lblTBNgaySinh.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBNgaySinh.setIcon(new ImageIcon(urlTBFail));
 		lblTBNgaySinh.setBackground(new Color(255, 255, 255));
 		lblTBNgaySinh.setBounds(346, 80, 25, 25);
 		pnlTop.add(lblTBNgaySinh);
@@ -150,9 +157,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataDienThoai()) {
-					lblTBDienThoai.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBDienThoai.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBDienThoai.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBDienThoai.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -162,9 +169,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataDienThoai()) {
-					lblTBDienThoai.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBDienThoai.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBDienThoai.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBDienThoai.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -319,7 +326,7 @@ public class NhanVien_Panel extends JPanel
 		btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(255, 255, 255));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setBounds(437, 230, 120, 30);
 		pnlTop.add(btnThem);
 
@@ -327,14 +334,14 @@ public class NhanVien_Panel extends JPanel
 		btnLuu.setEnabled(false);
 		btnLuu.setBackground(new Color(255, 255, 255));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		btnLuu.setBounds(572, 230, 120, 30);
 		pnlTop.add(btnLuu);
 
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(new Color(255, 255, 255));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setBounds(702, 230, 120, 30);
 		pnlTop.add(btnLamMoi);
 
@@ -381,31 +388,31 @@ public class NhanVien_Panel extends JPanel
 		pnlTop.add(cmbTrinhDo);
 
 		lblTBNgayVao = new JLabel("");
-		lblTBNgayVao.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBNgayVao.setIcon(new ImageIcon(urlTBFail));
 		lblTBNgayVao.setBackground(Color.WHITE);
 		lblTBNgayVao.setBounds(1225, 80, 25, 25);
 		pnlTop.add(lblTBNgayVao);
 
 		lblTBTen = new JLabel("");
-		lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBTen.setIcon(new ImageIcon(urlTBFail));
 		lblTBTen.setBackground(Color.WHITE);
 		lblTBTen.setBounds(346, 50, 25, 25);
 		pnlTop.add(lblTBTen);
 
 		lblTBCMND = new JLabel("");
-		lblTBCMND.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBCMND.setIcon(new ImageIcon(urlTBFail));
 		lblTBCMND.setBackground(Color.WHITE);
 		lblTBCMND.setBounds(346, 140, 25, 25);
 		pnlTop.add(lblTBCMND);
 
 		lblTBDienThoai = new JLabel("");
-		lblTBDienThoai.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBDienThoai.setIcon(new ImageIcon(urlTBFail));
 		lblTBDienThoai.setBackground(Color.WHITE);
 		lblTBDienThoai.setBounds(346, 170, 25, 25);
 		pnlTop.add(lblTBDienThoai);
 
 		lblTBEmail = new JLabel("");
-		lblTBEmail.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBEmail.setIcon(new ImageIcon(urlTBFail));
 		lblTBEmail.setBackground(Color.WHITE);
 		lblTBEmail.setBounds(788, 20, 25, 25);
 		pnlTop.add(lblTBEmail);
@@ -442,7 +449,7 @@ public class NhanVien_Panel extends JPanel
 		btnTim.setBackground(new Color(255, 255, 255));
 		btnTim.setBorderPainted(false);
 		btnTim.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnTim.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTim.setIcon(new ImageIcon(urlTim));
 		btnTim.setBounds(509, 5, 25, 25);
 		pnlTim.add(btnTim);
 
@@ -464,7 +471,7 @@ public class NhanVien_Panel extends JPanel
 
 		btnReLoad = new JButton("");
 		btnReLoad.setBorderPainted(false);
-		btnReLoad.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnReLoad.setIcon(new ImageIcon(urlLamMoi));
 		btnReLoad.setBackground(new Color(255, 255, 255));
 		btnReLoad.setBounds(240, 5, 25, 25);
 		pnlTim.add(btnReLoad);
@@ -507,9 +514,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (valiDataHoTen()) {
-					lblTBTen.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -519,9 +526,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (valiDataHoTen()) {
-					lblTBTen.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTen.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTen.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -539,9 +546,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataCMND()) {
-					lblTBCMND.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBCMND.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBCMND.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBCMND.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -551,9 +558,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataCMND()) {
-					lblTBCMND.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBCMND.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBCMND.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBCMND.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -571,9 +578,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataEmail()) {
-					lblTBEmail.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBEmail.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBEmail.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBEmail.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -583,9 +590,9 @@ public class NhanVien_Panel extends JPanel
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validData());
 				if (validDataEmail()) {
-					lblTBEmail.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBEmail.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBEmail.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBEmail.setIcon(new ImageIcon(urlTBFail));
 				}
 
 			}
@@ -984,9 +991,9 @@ public class NhanVien_Panel extends JPanel
 			btnThem.setEnabled(validData());
 			btnLuu.setEnabled(validData());
 			if (validDataNgaySinh()) {
-				lblTBNgaySinh.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+				lblTBNgaySinh.setIcon(new ImageIcon(urlTBSuccess));
 			} else {
-				lblTBNgaySinh.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+				lblTBNgaySinh.setIcon(new ImageIcon(urlTBFail));
 			}
 		}
 
@@ -994,9 +1001,9 @@ public class NhanVien_Panel extends JPanel
 			btnThem.setEnabled(validData());
 			btnLuu.setEnabled(validData());
 			if (validDataNgayVaoLam()) {
-				lblTBNgayVao.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+				lblTBNgayVao.setIcon(new ImageIcon(urlTBSuccess));
 			} else {
-				lblTBNgayVao.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+				lblTBNgayVao.setIcon(new ImageIcon(urlTBFail));
 			}
 		}
 

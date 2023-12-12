@@ -346,4 +346,94 @@ public class BangChamCongCongNhan_DAO {
 		}
 		return n > 0;
 	}
+	public BangChamCongCongNhan timTheoMaCNVaNgay(String ngay) {
+		BangChamCongCongNhan bcccn = null;
+		PreparedStatement sta = null;
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "Select * from BangChamCongCongNhan where and ngayChamCong = ?";
+			sta = con.prepareStatement(sql);
+			sta.setString(1, ngay);
+
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+				String maCN = rs.getString("macn");
+				CongNhan cn1 = new CongNhan(maCN);
+				String maCD = rs.getString("maCD");
+				CongDoan cd = new CongDoan(maCD);
+				Date ngayChamCong = rs.getDate("ngayChamCong");
+				int soLuongLam = rs.getInt("soLuongLam");
+				BangPhanCong bpc = new BangPhanCong(cn1,cd);
+
+				bcccn = new BangChamCongCongNhan(bpc,ngayChamCong,soLuongLam);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bcccn;
+	}
+	//Nguyễn Tuấn Hùng
+	public ArrayList<CongNhan> getDanhSachTinhLuongTheoThangNam(int thang, int nam) {
+		PreparedStatement sta = null;
+		ArrayList<CongNhan> dscn = new ArrayList<CongNhan>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "Select bcc.maCN, cn.hoTen, sum(cd.gia * bcc.soLuongLam) + cn.phuCap as TongLuong from BangChamCongCongNhan bcc join CongDoan cd on bcc.maCD = cd.maCD"
+					+" join CongNhan cn on bcc.maCN = cn.maCN"
+					+" where MONTH(bcc.ngayChamCong) = ? and YEAR(bcc.ngayChamCong) = ?"
+					+" group by bcc.maCN, cn.hoTen, cn.phuCap";
+			sta = con.prepareStatement(sql);
+			sta.setInt(1, thang);
+			sta.setInt(2, nam);
+
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+
+
+				CongNhan cn = new CongNhan();
+				cn.setMaCN(rs.getString("maCN"));
+				cn.setHoTen(rs.getString("hoTen"));
+				cn.setGhiChu(rs.getString("TongLuong"));
+				dscn.add(cn);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dscn;
+	}
+	public ArrayList<CongNhan> getDanhSachTinhLuongTheoNgayVaMa(String ma, int thang, int nam) {
+		PreparedStatement sta = null;
+		ArrayList<CongNhan> dscn = new ArrayList<CongNhan>();
+		try {
+			ConnectDB.getInstance();
+			Connection con = ConnectDB.getConnection();
+			String sql = "Select bcc.maCN, cn.hoTen, sum(cd.gia*bcc.soLuongLam) as TongLuong from BangChamCongCongNhan bcc join CongDoan cd on bcc.maCD = cd.maCD"
+					+" join CongNhan cn on bcc.maCN = cn.maCN"
+					+" where bcc.maCN like ? and MONTH(bcc.ngayChamCong) = ? and YEAR(bcc.ngayChamCong) = ?"
+					+" group by bcc.maCN, cn.hoTen";
+			sta = con.prepareStatement(sql);
+			sta.setInt(2, thang);
+			sta.setInt(3, nam);
+			String maTim = "%" + ma +"%";
+			sta.setString(1, maTim);
+			ResultSet rs = sta.executeQuery();
+			while (rs.next()) {
+
+
+				CongNhan cn = new CongNhan();
+				cn.setMaCN(rs.getString("maCN"));
+				cn.setHoTen(rs.getString("hoTen"));
+				cn.setGhiChu(rs.getString("TongLuong"));
+				dscn.add(cn);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dscn;
+	}
 }

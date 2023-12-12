@@ -8,6 +8,8 @@ import util.Keycode;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.CardLayout;
@@ -19,10 +21,9 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
-
+import java.io.InputStream;
+import java.net.URL;
 import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
@@ -43,7 +44,8 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		contentPane.setBackground(new Color(0, 0, 160));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		ImageIcon icon = new ImageIcon("img//logo_icon.png");
+		URL urlicon = ManHinhChinh.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon(urlicon);
 		setIconImage(icon.getImage());
 		setLocationRelativeTo(null);
 		contentPane.setLayout(new CardLayout(0, 0));
@@ -89,11 +91,11 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		ChamCongCongNhan_Panel cccn = new ChamCongCongNhan_Panel();
 		pnlChamCongCN.add(cccn);
 		
-		JPanel pnlTienLuongCN = new JPanel();
-		contentPane.add(pnlTienLuongCN, "name_850260952036700");
-		pnlTienLuongCN.setLayout(new BorderLayout(0, 0));
+		JPanel pnlTinhLuongCN = new JPanel();
+		contentPane.add(pnlTinhLuongCN, "name_850260952036700");
+		pnlTinhLuongCN.setLayout(new BorderLayout(0, 0));
 		LuongCongNhan_Panel lcn = new LuongCongNhan_Panel();
-		pnlTienLuongCN.add(lcn);
+		pnlTinhLuongCN.add(lcn);
 		
 		JPanel pnlCongNhan = new JPanel();
 		contentPane.add(pnlCongNhan, "name_1052588786228600");
@@ -134,6 +136,12 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		JPanel pnlThongKe = new JPanel();
 		contentPane.add(pnlThongKe, "name_93440288109800");
 		pnlThongKe.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTinhLuongNV = new JPanel();
+		contentPane.add(pnlTinhLuongNV, "name_527274620109300");
+		pnlTinhLuongNV.setLayout(new BorderLayout(0, 0));
+		LuongNhanVien_Panel lnv = new LuongNhanVien_Panel();
+		pnlTinhLuongNV.add(lnv);
 //		ThongKe_Panel thongke;
 //		try {
 //			thongke = new ThongKe_Panel();
@@ -160,7 +168,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -168,22 +176,26 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(true);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
-		mnuHome.setIcon(new ImageIcon("img\\home.png"));
+		URL urlHome = ManHinhChinh.class.getResource("/img/home.png");
+		mnuHome.setIcon(new ImageIcon(urlHome));
 		mnuHome.setForeground(new Color(0, 0, 0));
 		mnuHome.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		menuBar.add(mnuHome);
 		
 		JMenu mnuQuanLy = new JMenu("Quản lý");
-		mnuQuanLy.setIcon(new ImageIcon("img\\folder.png"));
+		URL urlQuanLy = ManHinhChinh.class.getResource("/img/folder.png");
+		mnuQuanLy.setIcon(new ImageIcon(urlQuanLy));
 		mnuQuanLy.setForeground(new Color(0, 0, 0));
 		mnuQuanLy.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		menuBar.add(mnuQuanLy);
 		
 		JMenuItem mniPhongBan = new JMenuItem("Phòng ban");
 		mniPhongBan.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0));
-		mniPhongBan.setIcon(new ImageIcon("img\\department.png"));
+		URL urlPhongBan = ManHinhChinh.class.getResource("/img/department.png");
+		mniPhongBan.setIcon(new ImageIcon(urlPhongBan));
 		mniPhongBan.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mniPhongBan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -192,7 +204,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -200,13 +212,15 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mnuQuanLy.add(mniPhongBan);
 		
 		JMenuItem mniNhanVien = new JMenuItem("Nhân viên");
 		mniNhanVien.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F3, 0));
-		mniNhanVien.setIcon(new ImageIcon("img\\employee.png"));
+		URL urlNhanVien = ManHinhChinh.class.getResource("/img/employee.png");
+		mniNhanVien.setIcon(new ImageIcon(urlNhanVien));
 		mniNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mniNhanVien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -215,7 +229,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -223,13 +237,15 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mnuQuanLy.add(mniNhanVien);
 		
 		JMenuItem mniTaiKhoan = new JMenuItem("Tài khoản");
 		mniTaiKhoan.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		mniTaiKhoan.setIcon(new ImageIcon("img\\user.png"));
+		URL urlTaiKhoan = ManHinhChinh.class.getResource("/img/user.png");
+		mniTaiKhoan.setIcon(new ImageIcon(urlTaiKhoan));
 		mniTaiKhoan.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mniTaiKhoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,7 +254,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(true);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -246,12 +262,14 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		
 		JMenuItem mniCongNhan = new JMenuItem("Công nhân");
 		mniCongNhan.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0));
-		mniCongNhan.setIcon(new ImageIcon("img\\worker.png"));
+		URL urlCongNhan = ManHinhChinh.class.getResource("/img/worker.png");
+		mniCongNhan.setIcon(new ImageIcon(urlCongNhan));
 		mniCongNhan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
@@ -259,7 +277,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(true);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -267,6 +285,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniCongNhan.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -275,7 +294,8 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		
 		JMenuItem mniHopDong = new JMenuItem("Hợp đồng");
 		mniHopDong.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
-		mniHopDong.setIcon(new ImageIcon("img\\contract.png"));
+		URL urlHopDong = ManHinhChinh.class.getResource("/img/contract.png");
+		mniHopDong.setIcon(new ImageIcon(urlHopDong));
 		mniHopDong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
@@ -283,7 +303,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlHopDong.setVisible(true);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -291,6 +311,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniHopDong.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -299,7 +320,8 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		
 		JMenuItem mniCongDoan = new JMenuItem("Công đoạn");
 		mniCongDoan.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
-		mniCongDoan.setIcon(new ImageIcon("img\\procedure.png"));
+		URL urlCongDoan = ManHinhChinh.class.getResource("/img/procedure.png");
+		mniCongDoan.setIcon(new ImageIcon(urlCongDoan));
 		mniCongDoan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
@@ -307,7 +329,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlCongDoan.setVisible(true);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlHopDong.setVisible(false);
@@ -316,12 +338,14 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		
 		JMenuItem mniSanPham = new JMenuItem("Sản phẩm");
 		mniSanPham.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		mniSanPham.setIcon(new ImageIcon("img\\product.png"));
+		URL urlSanPham = ManHinhChinh.class.getResource("/img/product.png");
+		mniSanPham.setIcon(new ImageIcon(urlSanPham));
 		mniSanPham.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
@@ -329,7 +353,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlCongDoan.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlHopDong.setVisible(false);
@@ -338,6 +362,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniSanPham.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -354,7 +379,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlTaiKhoan.setVisible(false);
 				pnlCongDoan.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlHopDong.setVisible(false);
@@ -363,20 +388,24 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(true);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
-		mniToNhom.setIcon(new ImageIcon("img\\group.png"));
+		URL urlToNhom = ManHinhChinh.class.getResource("/img/group.png");
+		mniToNhom.setIcon(new ImageIcon(urlToNhom));
 		mniToNhom.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mnuQuanLy.add(mniToNhom);
 		
 		JMenu mnuXuLy = new JMenu("Xử lý");
-		mnuXuLy.setIcon(new ImageIcon("img\\setting.png"));
+		URL urlXuLy = ManHinhChinh.class.getResource("/img/setting.png");
+		mnuXuLy.setIcon(new ImageIcon(urlXuLy));
 		mnuXuLy.setForeground(new Color(0, 0, 0));
 		mnuXuLy.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		menuBar.add(mnuXuLy);
 		
 		JMenu mnuChamCong = new JMenu("Chấm công");
-		mnuChamCong.setIcon(new ImageIcon("img\\timkeeping.png"));
+		URL urlChamCong = ManHinhChinh.class.getResource("/img/timkeeping.png");
+		mnuChamCong.setIcon(new ImageIcon(urlChamCong));
 		mnuChamCong.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mnuXuLy.add(mnuChamCong);
 		
@@ -391,13 +420,14 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlCongDoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlSanPham.setVisible(false);
 				pnlPhanCong.setVisible(false);
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniChamCongNV.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -413,7 +443,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlCongDoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(true);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -421,24 +451,21 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniChamCongCN.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mnuChamCong.add(mniChamCongCN);
 		
-		JMenu mnuTraLuong = new JMenu("Trả lương");
-		mnuTraLuong.setIcon(new ImageIcon("img\\paypal.png"));
-		mnuTraLuong.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		mnuXuLy.add(mnuTraLuong);
+		JMenu mnuTinhLuong = new JMenu("Tính lương");
+		URL urlTinhLuong = ManHinhChinh.class.getResource("/img/paypal.png");
+		mnuTinhLuong.setIcon(new ImageIcon(urlTinhLuong));
+		mnuTinhLuong.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		mnuXuLy.add(mnuTinhLuong);
 		
-		JMenuItem mniTraLuongNV = new JMenuItem("Trả lương nhân viên");
-		mniTraLuongNV.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, InputEvent.CTRL_DOWN_MASK));
-		mniTraLuongNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mnuTraLuong.add(mniTraLuongNV);
-		
-		JMenuItem mniTraLuongCN = new JMenuItem("Trả lương công nhân");
-		mniTraLuongCN.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.CTRL_DOWN_MASK));
-		mniTraLuongCN.addActionListener(new ActionListener() {
+		JMenuItem mniTinhLuongNV = new JMenuItem("Tính lương nhân viên");
+		mniTinhLuongNV.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F9, InputEvent.CTRL_DOWN_MASK));
+		mniTinhLuongNV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
 				pnlNhanVien.setVisible(false);
@@ -446,7 +473,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlCongDoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(true);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -454,14 +481,40 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(true);
 			}
 		});
-		mniTraLuongCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		mnuTraLuong.add(mniTraLuongCN);
+		mniTinhLuongNV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		mnuTinhLuong.add(mniTinhLuongNV);
+		
+		JMenuItem mniTinhLuongCN = new JMenuItem("Tính lương công nhân");
+		mniTinhLuongCN.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.CTRL_DOWN_MASK));
+		mniTinhLuongCN.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnlPhongBan.setVisible(false);
+				pnlNhanVien.setVisible(false);
+				pnlTaiKhoan.setVisible(false);
+				pnlCongDoan.setVisible(false);
+				pnlHopDong.setVisible(false);
+				pnlChamCongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(true);
+				pnlCongNhan.setVisible(false);
+				pnlChamCongNV.setVisible(false);
+				pnlSanPham.setVisible(false);
+				pnlPhanCong.setVisible(false);
+				pnlGioiThieu.setVisible(false);
+				pnlToNhom.setVisible(false);
+				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
+			}
+		});
+		mniTinhLuongCN.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		mnuTinhLuong.add(mniTinhLuongCN);
 		
 		JMenuItem mniPhanCong = new JMenuItem("Phân công");
 		mniPhanCong.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F12, InputEvent.ALT_DOWN_MASK));
-		mniPhanCong.setIcon(new ImageIcon("img\\assignment.png"));
+		URL urlPhanCong = ManHinhChinh.class.getResource("/img/assignment.png");
+		mniPhanCong.setIcon(new ImageIcon(urlPhanCong));
 		mniPhanCong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnlPhongBan.setVisible(false);
@@ -470,7 +523,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlCongDoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -478,6 +531,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(false);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
 		mniPhanCong.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -493,7 +547,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlCongDoan.setVisible(false);
 				pnlHopDong.setVisible(false);
 				pnlChamCongCN.setVisible(false);
-				pnlTienLuongCN.setVisible(false);
+				pnlTinhLuongCN.setVisible(false);
 				pnlCongNhan.setVisible(false);
 				pnlChamCongNV.setVisible(false);
 				pnlSanPham.setVisible(false);
@@ -501,9 +555,11 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 				pnlGioiThieu.setVisible(false);
 				pnlToNhom.setVisible(false);
 				pnlThongKe.setVisible(true);
+				pnlTinhLuongNV.setVisible(false);
 			}
 		});
-		mnuThongKe.setIcon(new ImageIcon("img\\excel.png"));
+		URL urlThongKe = ManHinhChinh.class.getResource("/img/excel.png");
+		mnuThongKe.setIcon(new ImageIcon(urlThongKe));
 		mnuThongKe.setForeground(new Color(0, 0, 0));
 		mnuThongKe.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		menuBar.add(mnuThongKe);
@@ -512,33 +568,38 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		mnuHoTro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-		        String pdfPath = "support\\07_7_ApplicationDevelopment_UserManual.pdf";
-		        try {
-		            File file = new File(pdfPath);
-		            // Kiểm tra nếu máy tính hỗ trợ Desktop Action
-		            if (Desktop.isDesktopSupported()) {
-		                Desktop desktop = Desktop.getDesktop();
-		                // Kiểm tra nếu hệ thống hỗ trợ mở tệp PDF
-		                if (desktop.isSupported(Desktop.Action.OPEN)) {
-		                    desktop.open(file);
+		        InputStream pdfStream = ManHinhChinh.class.getResourceAsStream("/support/07_7_ApplicationDevelopment_UserManual.pdf");
+		        if (pdfStream != null) {
+		            try {
+		                java.nio.file.Path tempFile = java.nio.file.Files.createTempFile("tempPdf", ".pdf");
+		                java.nio.file.Files.copy(pdfStream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+		                if (Desktop.isDesktopSupported()) {
+		                    Desktop desktop = Desktop.getDesktop();
+		                    if (desktop.isSupported(Desktop.Action.OPEN)) {
+		                        desktop.open(tempFile.toFile());
+		                    } else {
+		                        JOptionPane.showMessageDialog(null, "Hệ thống không hỗ trợ mở tệp PDF.");
+		                    }
 		                } else {
-		                    System.out.println("Hệ thống không hỗ trợ mở tệp PDF.");
+		                    JOptionPane.showMessageDialog(null, "Hệ thống không hỗ trợ Desktop Action.");
 		                }
-		            } else {
-		                System.out.println("Hệ thống không hỗ trợ Desktop Action.");
+		            } catch (IOException ex) {
+		                ex.printStackTrace();
 		            }
-		        } catch (IOException ex) {
-		            ex.printStackTrace();
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Không thể tìm thấy tệp PDF trong JAR.");
 		        }
 			}
 		});
-		mnuHoTro.setIcon(new ImageIcon("img\\support.png"));
+		URL urlHoTro = ManHinhChinh.class.getResource("/img/support.png");
+		mnuHoTro.setIcon(new ImageIcon(urlHoTro));
 		mnuHoTro.setForeground(new Color(0, 0, 0));
 		mnuHoTro.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		menuBar.add(mnuHoTro);
 		
 		JMenu mnuAbout = new JMenu("About");
-		mnuAbout.setIcon(new ImageIcon("img\\about.png"));
+		URL urlAbout = ManHinhChinh.class.getResource("/img/about.png");
+		mnuAbout.setIcon(new ImageIcon(urlAbout));
 		mnuAbout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -557,12 +618,14 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		JMenu mnuThongTinDangNhap = new JMenu(Keycode.getTaiKhoan().getNhanVien().getHoTen());
 		mnuThongTinDangNhap.setForeground(new Color(0, 0, 0));
 		mnuThongTinDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		mnuThongTinDangNhap.setIcon(new ImageIcon("img\\user.png"));
+		URL urlThongTinDangNhap = ManHinhChinh.class.getResource("/img/user.png");
+		mnuThongTinDangNhap.setIcon(new ImageIcon(urlThongTinDangNhap));
 		menuBar.add(mnuThongTinDangNhap);
 		
 		JMenuItem mniDoiPass = new JMenuItem("Đổi mật khẩu");
 		mniDoiPass.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.CTRL_DOWN_MASK));
-		mniDoiPass.setIcon(new ImageIcon("img\\changepassword.png"));
+		URL urlDoiPass = ManHinhChinh.class.getResource("/img/changepassword.png");
+		mniDoiPass.setIcon(new ImageIcon(urlDoiPass));
 		mniDoiPass.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new DoiMatKhau().setVisible(true);
@@ -573,7 +636,8 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		
 		mniDangXuat = new JMenuItem("Đăng xuất");
 		mniDangXuat.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, InputEvent.CTRL_DOWN_MASK));
-		mniDangXuat.setIcon(new ImageIcon("img\\logout.png"));
+		URL urlDangXuat = ManHinhChinh.class.getResource("/img/logout.png");
+		mniDangXuat.setIcon(new ImageIcon(urlDangXuat));
 		mniDangXuat.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		mnuThongTinDangNhap.add(mniDangXuat);
 		
@@ -585,7 +649,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 			
 		}
 		if(giaTri == 2) {
-			mnuTraLuong.setEnabled(false);
+			mnuTinhLuong.setEnabled(false);
 			mnuThongKe.setEnabled(false);
 			mniHopDong.setEnabled(false);
 			mniSanPham.setEnabled(false);
@@ -611,7 +675,7 @@ public class ManHinhChinh extends JFrame implements ActionListener{
 		if(giaTri == 5) {
 			mnuQuanLy.setEnabled(false);
 			mniChamCongNV.setEnabled(false);
-			mnuTraLuong.setEnabled(false);
+			mnuTinhLuong.setEnabled(false);
 			mnuThongKe.setEnabled(false);
 			mniToNhom.setEnabled(false);
 		}

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
@@ -54,7 +55,13 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 	private JButton btnXoa;
 	private NhanVien_DAO nhanVien_dao = new NhanVien_DAO();
 	private TaiKhoan_DAO taiKhoan_dao = new TaiKhoan_DAO();
-	
+	private URL urlTim = TaiKhoan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = TaiKhoan_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlXoa = TaiKhoan_Panel.class.getResource("/img/Pictogrammers-Material-Delete-forever.24.png");
+	private URL urlLamMoi = TaiKhoan_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = TaiKhoan_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+	private URL urlTBFail = TaiKhoan_Panel.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = TaiKhoan_Panel.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
 	public TaiKhoan_Panel() {
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BorderLayout(0, 0));
@@ -99,7 +106,7 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 		btnTimNhanVien = new JButton("");
 		btnTimNhanVien.setBackground(new Color(255, 255, 255));
 		btnTimNhanVien.setBorderPainted(false);
-		btnTimNhanVien.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTimNhanVien.setIcon(new ImageIcon(urlTim));
 		btnTimNhanVien.setBounds(262, 5, 25, 25);
 		pnlTim.add(btnTimNhanVien);
 		
@@ -111,7 +118,7 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 		btnReload = new JButton("");
 		btnReload.setBackground(new Color(255, 255, 255));
 		btnReload.setBorderPainted(false);
-		btnReload.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnReload.setIcon(new ImageIcon(urlLamMoi));
 		btnReload.setBounds(361, 5, 25, 25);
 		pnlTim.add(btnReload);
 		
@@ -200,7 +207,7 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 		pnlThongTinTaiKhoan.add(cmbQuyen);
 		
 		JLabel lblTBMatKhau = new JLabel("");
-		lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 		lblTBMatKhau.setBackground(Color.WHITE);
 		lblTBMatKhau.setBounds(300, 120, 20, 20);
 		pnlThongTinTaiKhoan.add(lblTBMatKhau);
@@ -208,7 +215,7 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 		btnThem = new JButton("Thêm");
 		btnThem.setEnabled(false);
 		btnThem.setBackground(new Color(255, 255, 255));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBounds(371, 246, 120, 30);
 		pnlThongTin.add(btnThem);
@@ -216,21 +223,21 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 		btnLuu = new JButton("Lưu");
 		btnLuu.setEnabled(false);
 		btnLuu.setBackground(new Color(255, 255, 255));
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBounds(509, 246, 120, 30);
 		pnlThongTin.add(btnLuu);
 		
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(new Color(255, 255, 255));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBounds(666, 246, 120, 30);
 		pnlThongTin.add(btnLamMoi);
 		
 		btnXoa = new JButton("Xóa");
 		btnXoa.setEnabled(false);
-		btnXoa.setIcon(new ImageIcon("img\\Pictogrammers-Material-Delete-forever.24.png"));
+		btnXoa.setIcon(new ImageIcon(urlXoa));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnXoa.setBackground(Color.WHITE);
 		btnXoa.setBounds(819, 246, 120, 30);
@@ -269,9 +276,9 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 			public void removeUpdate(DocumentEvent e) {
 				btnThem.setEnabled(validDataMatKhau());
 				if (validDataMatKhau()) {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}
@@ -280,9 +287,9 @@ public class TaiKhoan_Panel extends JPanel implements ActionListener, MouseListe
 			public void insertUpdate(DocumentEvent e) {
 				btnThem.setEnabled(validDataMatKhau());
 				if (validDataMatKhau()) {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBMatKhau.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBMatKhau.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}

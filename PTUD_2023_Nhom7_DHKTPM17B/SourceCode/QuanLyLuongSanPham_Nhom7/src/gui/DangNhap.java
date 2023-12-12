@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
@@ -64,7 +65,8 @@ public class DangNhap extends JFrame implements ActionListener{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
-		ImageIcon icon = new ImageIcon("img//logo_icon.png");
+		URL urlicon = DangNhap.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon(urlicon);
 		setIconImage(icon.getImage());
 		setTitle("QUẢN LÝ LƯƠNG");
 		
@@ -76,7 +78,8 @@ public class DangNhap extends JFrame implements ActionListener{
 		
 		JLabel lblHinhAnh = new JLabel("");
 		lblHinhAnh.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHinhAnh.setIcon(new ImageIcon("img//SplashScreen.png"));
+		URL urlhinhAnh = DangNhap.class.getResource("/img/SplashScreen.png");
+		lblHinhAnh.setIcon(new ImageIcon(urlhinhAnh));
 		pnlLeft.add(lblHinhAnh);
 		
 		JPanel pnlRight = new JPanel();

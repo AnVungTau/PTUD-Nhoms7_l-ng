@@ -3,6 +3,8 @@ package connectDB;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 /**
  * @author Nguyễn Hồng Quân
  */
@@ -13,11 +15,16 @@ public class ConnectDB {
 		instance.connect();
 		return instance;
 	}
-	public void connect() throws SQLException {
-		String url = "jdbc:sqlserver://localhost:1433;databasename=QLLuongSP";
-		String user = "sa";
-		String password = "sapassword";
-		con = DriverManager.getConnection(url, user, password);
+	public void connect(){
+		try {
+			String url = "jdbc:sqlserver://localhost:1433;databasename=PTUD_2023_Nhom7_DHKTPM17B_SALAR";
+			String user = "sa";
+			String password = "sapassword";
+			con = DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "Lỗi kết nối database");
+			e.printStackTrace();
+		}
 	}
 	public void disconnect() {
 		if(con != null) {

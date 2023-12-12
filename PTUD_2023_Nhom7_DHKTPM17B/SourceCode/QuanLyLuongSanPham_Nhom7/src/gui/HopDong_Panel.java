@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,6 +69,12 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 	private JLabel lblTBNgayKT;
 	private HopDong_DAO hopDong_dao = new HopDong_DAO();
 	private DefaultTableModel model;
+	private URL urlTim = HopDong_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = HopDong_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlLamMoi = HopDong_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = HopDong_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+	private URL urlTBFail = HopDong_Panel.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = HopDong_Panel.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
 
 	public HopDong_Panel() {
 		setBackground(new Color(255, 255, 255));
@@ -131,7 +138,7 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		
 		btnThem = new JButton("Thêm");
 		btnThem.setBackground(new Color(255, 255, 255));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBounds(611, 205, 120, 30);
 		pnlTop.add(btnThem);
@@ -139,7 +146,7 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		btnLuu = new JButton("Lưu");
 		btnLuu.setEnabled(false);
 		btnLuu.setBackground(new Color(255, 255, 255));
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBounds(741, 205, 120, 30);
 		pnlTop.add(btnLuu);
@@ -204,7 +211,7 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		btnTim.setBackground(new Color(255, 255, 255));
 		btnTim.setBorderPainted(false);
 		btnTim.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnTim.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTim.setIcon(new ImageIcon(urlTim));
 		btnTim.setBounds(570, 5, 25, 25);
 		pnlTim.add(btnTim); 
 		btnTim.addActionListener(new ActionListener() {
@@ -267,7 +274,7 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(new Color(255, 255, 255));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setBounds(481, 205, 120, 30);
 		pnlTop.add(btnLamMoi);
 		
@@ -286,27 +293,27 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		
 		JLabel lblTBTenHD = new JLabel("");
 		lblTBTenHD.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTBTenHD.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBTenHD.setIcon(new ImageIcon(urlTBFail));
 		lblTBTenHD.setBackground(Color.WHITE);
 		lblTBTenHD.setBounds(436, 100, 25, 25);
 		pnlTop.add(lblTBTenHD);
 		
 		JLabel lblTBTenKH = new JLabel("");
-		lblTBTenKH.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBTenKH.setIcon(new ImageIcon(urlTBFail));
 		lblTBTenKH.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTBTenKH.setBackground(Color.WHITE);
 		lblTBTenKH.setBounds(436, 135, 25, 25);
 		pnlTop.add(lblTBTenKH);
 		
 		lblTBNgayBD = new JLabel("");
-		lblTBNgayBD.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBNgayBD.setIcon(new ImageIcon(urlTBFail));
 		lblTBNgayBD.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTBNgayBD.setBackground(Color.WHITE);
 		lblTBNgayBD.setBounds(802, 100, 25, 25);
 		pnlTop.add(lblTBNgayBD);
 		
 		lblTBNgayKT = new JLabel("");
-		lblTBNgayKT.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBNgayKT.setIcon(new ImageIcon(urlTBFail));
 		lblTBNgayKT.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTBNgayKT.setBackground(Color.WHITE);
 		lblTBNgayKT.setBounds(802, 135, 25, 25);
@@ -319,9 +326,9 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validDataSave());
 				if (valiDataTenHD()) {
-					lblTBTenHD.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenHD.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenHD.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenHD.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}
@@ -331,9 +338,9 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validDataSave());
 				if (valiDataTenHD()) {
-					lblTBTenHD.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenHD.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenHD.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenHD.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}
@@ -352,9 +359,9 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validDataSave());
 				if (valiDataTenKH()) {
-					lblTBTenKH.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenKH.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenKH.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenKH.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}
@@ -364,9 +371,9 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 				btnThem.setEnabled(validData());
 				btnLuu.setEnabled(validDataSave());
 				if (valiDataTenKH()) {
-					lblTBTenKH.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenKH.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenKH.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenKH.setIcon(new ImageIcon(urlTBFail));
 				}
 				
 			}
@@ -632,18 +639,18 @@ public class HopDong_Panel extends  JPanel implements ActionListener, PropertyCh
 		if (o.equals(dateChooserBatDau)) {
 			btnThem.setEnabled(validData());
 			if (validDataNgayBD()) {
-				lblTBNgayBD.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+				lblTBNgayBD.setIcon(new ImageIcon(urlTBSuccess));
 			} else {
-				lblTBNgayBD.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+				lblTBNgayBD.setIcon(new ImageIcon(urlTBFail));
 			}
 		}
 		
 		if (o.equals(dateChooserKetThuc)) {
 			btnThem.setEnabled(validData());
 			if (validDataNgayKT()) {
-				lblTBNgayKT.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+				lblTBNgayKT.setIcon(new ImageIcon(urlTBSuccess));
 			} else {
-				lblTBNgayKT.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+				lblTBNgayKT.setIcon(new ImageIcon(urlTBFail));
 			}
 		}
 		

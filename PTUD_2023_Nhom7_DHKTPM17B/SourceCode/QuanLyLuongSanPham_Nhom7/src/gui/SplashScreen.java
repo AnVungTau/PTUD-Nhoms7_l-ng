@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
 import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
 import java.util.Random;
 import javax.swing.SwingConstants;
 import javax.swing.SwingWorker;
@@ -28,7 +29,8 @@ public class SplashScreen extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		setLocationRelativeTo(null);
-		ImageIcon icon = new ImageIcon(("img//logo_icon.png"));
+		URL urlicon = SplashScreen.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon((urlicon));
 		setIconImage(icon.getImage());
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -56,7 +58,8 @@ public class SplashScreen extends JFrame {
 		
 		JLabel lblHinh = new JLabel("");
 		lblHinh.setBounds(2, 2, 496, 303);
-		lblHinh.setIcon(new ImageIcon("img\\SplashScreen.png"));
+		URL urlHinh = SplashScreen.class.getResource("/img/SplashScreen.png");
+		lblHinh.setIcon(new ImageIcon(urlHinh));
 		contentPane.add(lblHinh);
 		
 		progressBar = new JProgressBar();

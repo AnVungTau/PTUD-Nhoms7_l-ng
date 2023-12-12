@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -31,7 +32,8 @@ public class GioiThieu_Panel extends JPanel {
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				// Vẽ hình nền
-				Image backgroundImage = new ImageIcon("img//SplashScreen.png").getImage();
+				URL urlImage = GioiThieu_Panel.class.getResource("/img/SplashScreen.png");
+				Image backgroundImage = new ImageIcon(urlImage).getImage();
 				g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
 			}
 		};

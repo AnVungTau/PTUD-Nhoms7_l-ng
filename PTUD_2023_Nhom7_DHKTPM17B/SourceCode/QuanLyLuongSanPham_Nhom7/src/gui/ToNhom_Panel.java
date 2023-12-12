@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -38,7 +39,9 @@ public class ToNhom_Panel extends JPanel implements ActionListener, MouseListene
 	private JButton btnLuu;
 	private JButton btnLamMoi;
 	private JButton btnThem;
-
+	private URL urlThem = ToNhom_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlLamMoi = ToNhom_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = ToNhom_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
 
 	public ToNhom_Panel() {
 		setBackground(new Color(255, 255, 255));
@@ -62,19 +65,19 @@ public class ToNhom_Panel extends JPanel implements ActionListener, MouseListene
 		btnThem.setEnabled(false);
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBackground(new Color(255, 255, 255));
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		pnlChucNang.add(btnThem);
 		
 		btnLuu = new JButton("Cập nhật");
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBackground(new Color(255, 255, 255));
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		pnlChucNang.add(btnLuu);
 		
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBackground(new Color(255, 255, 255));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		pnlChucNang.add(btnLamMoi);
 		
 		JPanel pnlThongTin = new JPanel();

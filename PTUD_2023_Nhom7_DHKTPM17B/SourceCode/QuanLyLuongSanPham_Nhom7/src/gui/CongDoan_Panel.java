@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -156,7 +157,8 @@ public class CongDoan_Panel extends JPanel implements ActionListener, MouseListe
 
 		btnTimSP = new JButton("");
 		btnTimSP.setBorderPainted(false);
-		btnTimSP.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlBtnTimSP = CongDoan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimSP.setIcon(new ImageIcon(urlBtnTimSP));
 		btnTimSP.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnTimSP.setBounds(261, 5, 25, 25);
 		pnlTimSP.add(btnTimSP);
@@ -202,28 +204,32 @@ public class CongDoan_Panel extends JPanel implements ActionListener, MouseListe
 		pnlTop.add(txtGhiChu);
 
 		btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		URL urlBtnThem = CongDoan_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+		btnThem.setIcon(new ImageIcon(urlBtnThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBackground(Color.WHITE);
 		btnThem.setBounds(543, 268, 120, 30);
 		pnlTop.add(btnThem);
 
 		btnLamMoi = new JButton("Làm mới");
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		URL urlBtnLamMoi = CongDoan_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+		btnLamMoi.setIcon(new ImageIcon(urlBtnLamMoi));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBackground(Color.WHITE);
 		btnLamMoi.setBounds(936, 268, 120, 30);
 		pnlTop.add(btnLamMoi);
 
 		btnLuu = new JButton("Lưu");
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		URL urlBtnLuu = CongDoan_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+		btnLuu.setIcon(new ImageIcon(urlBtnLuu));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBackground(Color.WHITE);
 		btnLuu.setBounds(673, 268, 120, 30);
 		pnlTop.add(btnLuu);
 
 		btnXoa = new JButton("Xóa");
-		btnXoa.setIcon(new ImageIcon("img\\Pictogrammers-Material-Delete-forever.24.png"));
+		URL urlXoa = CongDoan_Panel.class.getResource("/img/Pictogrammers-Material-Delete-forever.24.png");
+		btnXoa.setIcon(new ImageIcon(urlXoa));
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnXoa.setBackground(Color.WHITE);
 		btnXoa.setBounds(803, 268, 120, 30);
@@ -293,7 +299,8 @@ public class CongDoan_Panel extends JPanel implements ActionListener, MouseListe
 		btnTimCD = new JButton("");
 		btnTimCD.setBackground(new Color(255, 255, 255));
 		btnTimCD.setBorderPainted(false);
-		btnTimCD.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		URL urlTimCD = CongDoan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+		btnTimCD.setIcon(new ImageIcon(urlTimCD));
 		btnTimCD.setBounds(584, 5, 25, 25);
 		btnTimCD.setFont(new Font("Tahoma", Font.BOLD, 12));
 		pnlTimCD.add(btnTimCD);

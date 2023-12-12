@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
@@ -69,7 +70,12 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 	private DefaultTableModel modelSP;
 	private JButton btnTimSP;
 	private JComboBox<String> cmbLoc;
-
+	private URL urlTim = SanPham_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
+	private URL urlThem = SanPham_Panel.class.getResource("/img/Custom-Icon-Design-Flatastic-1-Add-1.24.png");
+	private URL urlLamMoi = SanPham_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png");
+	private URL urlLuu = SanPham_Panel.class.getResource("/img/Oxygen-Icons.org-Oxygen-Actions-document-save.24.png");
+	private URL urlTBFail = SanPham_Panel.class.getResource("/img/Saki-NuoveXT-Actions-button-cancel.16.png");
+	private URL urlTBSuccess = SanPham_Panel.class.getResource("/img/Custom-Icon-Design-Pretty-Office-8-Accept.16.png");
 	public SanPham_Panel() {
 		setBackground(new Color(255, 255, 255));
 		setLayout(new BorderLayout(0, 0));
@@ -116,14 +122,14 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 		btnTimHopDong.setBorderPainted(false);
 		btnTimHopDong.setBackground(new Color(255, 255, 255));
 		btnTimHopDong.setBorderPainted(false);
-		btnTimHopDong.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTimHopDong.setIcon(new ImageIcon(urlTim));
 		btnTimHopDong.setBounds(295, 5, 25, 25);
 		pnlTim.add(btnTimHopDong);
 
 		btnLamMoiHD = new JButton("");
 		btnLamMoiHD.setBorderPainted(false);
 		btnLamMoiHD.setBackground(new Color(255, 255, 255));
-		btnLamMoiHD.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoiHD.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoiHD.setBounds(24, 5, 25, 25);
 		pnlTim.add(btnLamMoiHD);
 
@@ -160,7 +166,7 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 
 		btnLamMoi = new JButton("Làm mới");
 		btnLamMoi.setBackground(new Color(255, 255, 255));
-		btnLamMoi.setIcon(new ImageIcon("img\\Hopstarter-Button-Button-Reload.24.png"));
+		btnLamMoi.setIcon(new ImageIcon(urlLamMoi));
 		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLamMoi.setBounds(730, 247, 120, 30);
 		pnlThongTin.add(btnLamMoi);
@@ -209,7 +215,7 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 		pnlThongTin.add(cmbDonViTinh);
 
 		btnThem = new JButton("Thêm");
-		btnThem.setIcon(new ImageIcon("img\\Custom-Icon-Design-Flatastic-1-Add-1.24.png"));
+		btnThem.setIcon(new ImageIcon(urlThem));
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnThem.setBackground(Color.WHITE);
 		btnThem.setBounds(860, 247, 120, 30);
@@ -217,7 +223,7 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 
 		btnLuu = new JButton("Lưu");
 		btnLuu.setEnabled(false);
-		btnLuu.setIcon(new ImageIcon("img\\Oxygen-Icons.org-Oxygen-Actions-document-save.24.png"));
+		btnLuu.setIcon(new ImageIcon(urlLuu));
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnLuu.setBackground(Color.WHITE);
 		btnLuu.setBounds(990, 247, 120, 30);
@@ -236,7 +242,7 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 		pnlThongTin.add(txtGhiChu);
 
 		lblTBTenSP = new JLabel("");
-		lblTBTenSP.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+		lblTBTenSP.setIcon(new ImageIcon(urlTBFail));
 		lblTBTenSP.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTBTenSP.setBackground(Color.WHITE);
 		lblTBTenSP.setBounds(1063, 55, 25, 25);
@@ -294,7 +300,7 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 
 		btnTimSP = new JButton("");
 		btnTimSP.setBorderPainted(false);
-		btnTimSP.setIcon(new ImageIcon("img\\Ampeross-Qetto-2-Search.24.png"));
+		btnTimSP.setIcon(new ImageIcon(urlTim));
 		btnTimSP.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnTimSP.setBorderPainted(false);
 		btnTimSP.setBackground(Color.WHITE);
@@ -308,9 +314,9 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 				btnThem.setEnabled(enableThem());
 				btnLuu.setEnabled(enableLuu());
 				if (valiDataTenSP()) {
-					lblTBTenSP.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenSP.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenSP.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenSP.setIcon(new ImageIcon(urlTBFail));
 				}
 			}
 
@@ -319,9 +325,9 @@ public class SanPham_Panel extends JPanel implements ActionListener, MouseListen
 				btnThem.setEnabled(enableThem());
 				btnLuu.setEnabled(enableLuu());
 				if (valiDataTenSP()) {
-					lblTBTenSP.setIcon(new ImageIcon("img\\Custom-Icon-Design-Pretty-Office-8-Accept.16.png"));
+					lblTBTenSP.setIcon(new ImageIcon(urlTBSuccess));
 				} else {
-					lblTBTenSP.setIcon(new ImageIcon("img\\Saki-NuoveXT-Actions-button-cancel.16.png"));
+					lblTBTenSP.setIcon(new ImageIcon(urlTBFail));
 				}
 			}
 
