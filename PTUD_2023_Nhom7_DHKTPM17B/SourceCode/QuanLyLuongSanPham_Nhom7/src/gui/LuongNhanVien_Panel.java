@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import com.toedter.calendar.JYearChooser;
-import dao.ChamCongNhanVien_DAO;
+import dao.BangChamCongNhanVien_DAO;
 import dao.NhanVien_DAO;
 import entity.NhanVien;
 import com.toedter.calendar.JMonthChooser;
@@ -35,6 +35,7 @@ import java.io.*;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * @author Nguyễn Tuấn Hùng
@@ -51,7 +52,7 @@ public class LuongNhanVien_Panel extends JPanel implements ActionListener {
 	private JMonthChooser monthChooser;
 	private JYearChooser yearChooser;
 	private NhanVien_DAO nv_Dao = new NhanVien_DAO();
-	private ChamCongNhanVien_DAO ccnv_DAO = new ChamCongNhanVien_DAO();
+	private BangChamCongNhanVien_DAO ccnv_DAO = new BangChamCongNhanVien_DAO();
 	private URL urlTim = LuongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
 	private URL urlTinhLuong = LuongCongNhan_Panel.class.getResource("/img/calculator.png");
 	private URL urlXuatFile = LuongCongNhan_Panel.class.getResource("/img/export.png");
@@ -72,7 +73,7 @@ public class LuongNhanVien_Panel extends JPanel implements ActionListener {
 
 		JLabel lblChonThang = new JLabel("Chọn tháng");
 		lblChonThang.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblChonThang.setBounds(54, 39, 76, 25);
+		lblChonThang.setBounds(61, 40, 76, 25);
 		pnlTop.add(lblChonThang);
 
 		btnXuatFile = new JButton("Xuất File");
@@ -90,19 +91,26 @@ public class LuongNhanVien_Panel extends JPanel implements ActionListener {
 		btnTinhLuong.setIcon(new ImageIcon(urlTinhLuong));
 		btnTinhLuong.setBackground(new Color(255, 255, 255));
 		btnTinhLuong.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnTinhLuong.setBounds(323, 39, 150, 30);
+		btnTinhLuong.setBounds(323, 40, 150, 30);
 		pnlTop.add(btnTinhLuong);
 
 		monthChooser = new JMonthChooser();
 		monthChooser.getComboBox().setFont(new Font("Tahoma", Font.PLAIN, 12));
-		monthChooser.setBounds(140, 39, 103, 25);
+		monthChooser.setBounds(140, 40, 103, 25);
 		setComboBoxLocale(monthChooser, new Locale("vi"));
 		pnlTop.add(monthChooser);
 
 		yearChooser = new JYearChooser();
 		yearChooser.getSpinner().setFont(new Font("Tahoma", Font.BOLD, 12));
-		yearChooser.setBounds(253, 39, 60, 25);
+		yearChooser.setBounds(253, 40, 60, 25);
 		pnlTop.add(yearChooser);
+		
+		JLabel lblBngLngNhn = new JLabel("BẢNG LƯƠNG NHÂN VIÊN");
+		lblBngLngNhn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBngLngNhn.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBngLngNhn.setBackground(Color.WHITE);
+		lblBngLngNhn.setBounds(10, 10, 1268, 22);
+		pnlTop.add(lblBngLngNhn);
 
 		JPanel pnlCenter = new JPanel();
 		pnlCenter.setBackground(new Color(255, 255, 255));
@@ -112,8 +120,24 @@ public class LuongNhanVien_Panel extends JPanel implements ActionListener {
 		pnlCenter.setLayout(new BorderLayout(0, 0));
 
 		String header[] = { "Mã NV", "Họ tên", "Tiền trợ cấp", "Nguyên ngày", "Nửa ngày", "Có phép",
-				"Không phép", "Số giờ tăng ca", "Tổng lương", "Ghi chú" };
-		modelBangLuong = new DefaultTableModel(header, 0);
+				"Không phép", "Số giờ tăng ca", "Tổng lương"};
+		modelBangLuong = new DefaultTableModel(header, 0) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if(columnIndex == 2 || columnIndex == 8) {
+					return Integer.class;
+				}
+				return super.getColumnClass(columnIndex);
+			}	
+		};
+
 		JScrollPane scrollPane = new JScrollPane();
 		pnlCenter.add(scrollPane);
 
@@ -180,10 +204,9 @@ public class LuongNhanVien_Panel extends JPanel implements ActionListener {
 			int koPhep = ccnv_DAO.soNgayNghiKhongPhep(nv, thang, nam);
 			int soGioTangCa = ccnv_DAO.soGioTangCa(nv, thang, nam);
 			float phuCap = nv.getPhuCap();
-			String ghiChu = "";
 			float tongLuong = tinhLuong(nguyenNgay, nuaNgay, soGioTangCa, phuCap, koPhep, nv.getHeSoLuong());
-			modelBangLuong.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), nv.getPhuCap(), nguyenNgay, nuaNgay,
-					coPhep, koPhep, soGioTangCa, format.format(tongLuong), ghiChu });
+			modelBangLuong.addRow(new Object[] { nv.getMaNV(), nv.getHoTen(), format.format(nv.getPhuCap()), nguyenNgay, nuaNgay,
+					coPhep, koPhep, soGioTangCa, format.format(tongLuong)});
 		}
 	}
 

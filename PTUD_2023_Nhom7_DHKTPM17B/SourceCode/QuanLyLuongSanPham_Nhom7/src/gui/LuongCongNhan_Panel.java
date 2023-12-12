@@ -33,6 +33,7 @@ import com.opencsv.CSVWriter;
 import java.io.*;
 import javax.swing.JFileChooser;
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * @author Nguyễn Tuấn Hùng
@@ -52,6 +53,7 @@ public class LuongCongNhan_Panel extends JPanel implements ActionListener{
 	private URL urlTim = LuongCongNhan_Panel.class.getResource("/img/Ampeross-Qetto-2-Search.24.png");
 	private URL urlTinhLuong = LuongCongNhan_Panel.class.getResource("/img/calculator.png");
 	private URL urlXuatFile = LuongCongNhan_Panel.class.getResource("/img/export.png");
+	private JLabel lblBngLngCng;
 	public LuongCongNhan_Panel() {
 		setBackground(new Color(255, 255, 255));
 		setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "Ti\u1EC1n l\u01B0\u01A1ng c\u00F4ng nh\u00E2n", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -96,14 +98,36 @@ public class LuongCongNhan_Panel extends JPanel implements ActionListener{
 		yearChooser.setBounds(237, 40, 76, 25);
 		pnlTop.add(yearChooser);
 		
+		lblBngLngCng = new JLabel("BẢNG LƯƠNG CÔNG NHÂN");
+		lblBngLngCng.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBngLngCng.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblBngLngCng.setBackground(Color.WHITE);
+		lblBngLngCng.setBounds(10, 8, 1268, 22);
+		pnlTop.add(lblBngLngCng);
+		
 		JPanel pnlCenter = new JPanel();
 		pnlCenter.setBackground(new Color(255, 255, 255));
 		pnlCenter.setBorder(new TitledBorder(null, "Danh s\u00E1ch ti\u1EC1n l\u01B0\u01A1ng", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(pnlCenter, BorderLayout.CENTER);
 		pnlCenter.setLayout(new BorderLayout(0, 0));
 		
-		String header[] = {"Mã CN", "Họ tên","Tổng lương","Ghi chú"};
-		modelBangLuong = new DefaultTableModel(header, 0);
+		String header[] = {"Mã CN", "Họ tên","Tiền trợ cấp","Tổng lương"};
+		modelBangLuong = new DefaultTableModel(header, 0) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+				if(columnIndex == 2 || columnIndex == 3) {
+					return Integer.class;
+				}
+				return super.getColumnClass(columnIndex);
+			}	
+		};
 		JScrollPane scrollPane = new JScrollPane();
 		pnlCenter.add(scrollPane);
 		
@@ -152,16 +176,13 @@ public class LuongCongNhan_Panel extends JPanel implements ActionListener{
 			r--;
 		}
 	}
-	public float tinhLuong(int a, int b, int c, float d, int e, float f) {
-		return ((300000*a + 150000*b + 45000*c+ d - 100000*e)*f);
-	}
+	
 	private void LoadDanhSachCongNhan(ArrayList<CongNhan> dscn) {
 		clearTable();
 		DecimalFormat format = new DecimalFormat("#,##0 VND");
 		for(CongNhan cn : dscn) {
-			String ghiChu = "";
 			float tongLuong = Float.parseFloat(cn.getGhiChu());
-			modelBangLuong.addRow(new Object[] { cn.getMaCN(),cn.getHoTen(), format.format(tongLuong),ghiChu});
+			modelBangLuong.addRow(new Object[] { cn.getMaCN(),cn.getHoTen(),format.format(cn.getPhuCap()),format.format(tongLuong)});
 		}
 		
 	}

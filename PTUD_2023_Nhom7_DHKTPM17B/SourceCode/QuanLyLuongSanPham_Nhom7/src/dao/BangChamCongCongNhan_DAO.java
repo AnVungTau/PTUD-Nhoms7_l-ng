@@ -381,21 +381,31 @@ public class BangChamCongCongNhan_DAO {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "Select bcc.maCN, cn.hoTen, sum(cd.gia * bcc.soLuongLam) + cn.phuCap as TongLuong from BangChamCongCongNhan bcc join CongDoan cd on bcc.maCD = cd.maCD"
-					+" join CongNhan cn on bcc.maCN = cn.maCN"
-					+" where MONTH(bcc.ngayChamCong) = ? and YEAR(bcc.ngayChamCong) = ?"
-					+" group by bcc.maCN, cn.hoTen, cn.phuCap";
+			String sql = "SELECT "
+					+ "    bcc.maCN, "
+					+ "    cn.hoTen, "
+					+ "    cn.phuCap, "
+					+ "    SUM(cd.gia * bcc.soLuongLam) + cn.phuCap AS TongLuong   "
+					+ "FROM "
+					+ "    BangChamCongCongNhan bcc "
+					+ "JOIN "
+					+ "    CongDoan cd ON bcc.maCD = cd.maCD "
+					+ "JOIN "
+					+ "    CongNhan cn ON bcc.maCN = cn.maCN "
+					+ "WHERE "
+					+ "    MONTH(bcc.ngayChamCong) = ? AND YEAR(bcc.ngayChamCong) = ? "
+					+ "GROUP BY "
+					+ "    bcc.maCN, cn.hoTen, cn.phuCap;";
 			sta = con.prepareStatement(sql);
 			sta.setInt(1, thang);
 			sta.setInt(2, nam);
 
 			ResultSet rs = sta.executeQuery();
 			while (rs.next()) {
-
-
 				CongNhan cn = new CongNhan();
 				cn.setMaCN(rs.getString("maCN"));
 				cn.setHoTen(rs.getString("hoTen"));
+				cn.setPhuCap(rs.getFloat("phuCap"));
 				cn.setGhiChu(rs.getString("TongLuong"));
 				dscn.add(cn);
 
@@ -411,10 +421,10 @@ public class BangChamCongCongNhan_DAO {
 		try {
 			ConnectDB.getInstance();
 			Connection con = ConnectDB.getConnection();
-			String sql = "Select bcc.maCN, cn.hoTen, sum(cd.gia*bcc.soLuongLam) as TongLuong from BangChamCongCongNhan bcc join CongDoan cd on bcc.maCD = cd.maCD"
+			String sql = "Select bcc.maCN, cn.hoTen, sum(cd.gia*bcc.soLuongLam) + cn.phuCap as TongLuong from BangChamCongCongNhan bcc join CongDoan cd on bcc.maCD = cd.maCD"
 					+" join CongNhan cn on bcc.maCN = cn.maCN"
 					+" where bcc.maCN like ? and MONTH(bcc.ngayChamCong) = ? and YEAR(bcc.ngayChamCong) = ?"
-					+" group by bcc.maCN, cn.hoTen";
+					+" group by bcc.maCN, cn.hoTen, cn.phuCap";
 			sta = con.prepareStatement(sql);
 			sta.setInt(2, thang);
 			sta.setInt(3, nam);

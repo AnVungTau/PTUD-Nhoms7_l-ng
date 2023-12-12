@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import com.toedter.calendar.JDateChooser;
-import dao.ChamCongNhanVien_DAO;
+import dao.BangChamCongNhanVien_DAO;
 import dao.PhongBan_DAO;
 import entity.BangChamCongNhanVien;
 import entity.PhongBan;
@@ -42,7 +42,7 @@ public class ChamCongNhanVien_Panel extends JPanel implements ActionListener, It
 	private JTable tblChamCong;
 	private JTextField txtTimTenNV;
 	private DefaultTableModel model;
-	private ChamCongNhanVien_DAO bangChamCongNhanVien_DAO = new ChamCongNhanVien_DAO();
+	private BangChamCongNhanVien_DAO bangChamCongNhanVien_DAO = new BangChamCongNhanVien_DAO();
 	private PhongBan_DAO phongBan_dao = new PhongBan_DAO();
 	private JDateChooser dateNgayCham;
 	private JButton btnTimTheoTen;

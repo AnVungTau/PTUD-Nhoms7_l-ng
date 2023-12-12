@@ -1,0 +1,89 @@
+//package entity;
+//
+//import java.util.Date;
+//import java.util.Objects;
+//
+//public class LuongNhanVien {
+//	private String maLuongNV;
+//	private NhanVien nv;
+//	private int tienTroCap;
+//	private int tienLuong;
+//	private Date ngayTinh;
+//	private String ghiChu;
+//	public String getMaLuongNV() {
+//		return maLuongNV;
+//	}
+//	public void setMaLuongNV(String maLuongNV) {
+//		this.maLuongNV = maLuongNV;
+//	}
+//	public NhanVien getNv() {
+//		return nv;
+//	}
+//	public void setNv(NhanVien nv) {
+//		this.nv = nv;
+//	}
+//	public int getTienTroCap() {
+//		return tienTroCap;
+//	}
+//	public void setTienTroCap(int tienTroCap) {
+//		this.tienTroCap = tienTroCap;
+//	}
+//	public int getTienLuong() {
+//		return tienLuong;
+//	}
+//	public void setTienLuong(int tienLuong) {
+//		this.tienLuong = tienLuong;
+//	}
+//	public Date getNgayTinh() {
+//		return ngayTinh;
+//	}
+//	public void setNgayTinh(Date ngayTinh) {
+//		this.ngayTinh = ngayTinh;
+//	}
+//	public String getGhiChu() {
+//		return ghiChu;
+//	}
+//	public void setGhiChu(String ghiChu) {
+//		this.ghiChu = ghiChu;
+//	}
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(maLuongNV);
+//	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		LuongNhanVien other = (LuongNhanVien) obj;
+//		return Objects.equals(maLuongNV, other.maLuongNV);
+//	}
+//	public LuongNhanVien(String maLuongNV, NhanVien nv, int tienTroCap, int tienLuong, Date ngayTinh, String ghiChu) {
+//		super();
+//		this.maLuongNV = maLuongNV;
+//		this.nv = nv;
+//		this.tienTroCap = tienTroCap;
+//		this.tienLuong = tienLuong;
+//		this.ngayTinh = ngayTinh;
+//		this.ghiChu = ghiChu;
+//	}
+//	public LuongNhanVien(String maLuongNV, NhanVien nv) {
+//		super();
+//		this.maLuongNV = maLuongNV;
+//		this.nv = nv;
+//	}
+//	public LuongNhanVien() {
+//		super();
+//		// TODO Auto-generated constructor stub
+//	}
+//	@Override
+//	public String toString() {
+//		return "LuongNhanVien [maLuongNV=" + maLuongNV + ", nv=" + nv + ", tienTroCap=" + tienTroCap + ", tienLuong="
+//				+ tienLuong + ", ngayTinh=" + ngayTinh + ", ghiChu=" + ghiChu + "]";
+//	}
+//	
+//	
+//}
