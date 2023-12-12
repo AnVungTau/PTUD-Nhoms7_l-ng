@@ -12,8 +12,8 @@ public class Application {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-//					new SplashScreen().setVisible(true);
-					new DangNhap().setVisible(true);
+					new SplashScreen().setVisible(true);
+//					new DangNhap().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
