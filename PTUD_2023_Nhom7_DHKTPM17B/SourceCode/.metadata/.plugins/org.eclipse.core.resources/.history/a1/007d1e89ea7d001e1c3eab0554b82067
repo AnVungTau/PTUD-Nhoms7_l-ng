@@ -1,0 +1,81 @@
+package gui;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+import java.awt.Font;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.border.TitledBorder;
+
+public class ChamCongCongNhan extends JPanel {
+	private JTable table;
+
+	/**
+	 * Create the panel.
+	 */
+	public ChamCongCongNhan() {
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTop = new JPanel();
+		pnlTop.setPreferredSize(new Dimension(10, 120));
+		add(pnlTop, BorderLayout.NORTH);
+		pnlTop.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTitle = new JPanel();
+		pnlTop.add(pnlTitle, BorderLayout.NORTH);
+		
+		JLabel lblTitle = new JLabel("Chấm công công nhân");
+		lblTitle.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		pnlTitle.add(lblTitle);
+		
+		JPanel pnlChucNang = new JPanel();
+		pnlTop.add(pnlChucNang, BorderLayout.CENTER);
+		pnlChucNang.setLayout(null);
+		
+		JLabel lblNgayCham = new JLabel("Ngày chấm");
+		lblNgayCham.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNgayCham.setBounds(30, 10, 99, 20);
+		pnlChucNang.add(lblNgayCham);
+		
+		JDateChooser dateNgayCham = new JDateChooser();
+		dateNgayCham.setBounds(40, 40, 115, 20);
+		pnlChucNang.add(dateNgayCham);
+		
+		JLabel lblSanPham = new JLabel("Sản phẩm");
+		lblSanPham.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblSanPham.setBounds(230, 10, 99, 20);
+		pnlChucNang.add(lblSanPham);
+		
+		JComboBox cmbSanPham = new JComboBox();
+		cmbSanPham.setBounds(240, 40, 115, 20);
+		pnlChucNang.add(cmbSanPham);
+		
+		JLabel lblCongDoan = new JLabel("Công đoạn");
+		lblCongDoan.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblCongDoan.setBounds(430, 10, 99, 20);
+		pnlChucNang.add(lblCongDoan);
+		
+		JComboBox cmbCongDoan = new JComboBox();
+		cmbCongDoan.setBounds(440, 40, 115, 20);
+		pnlChucNang.add(cmbCongDoan);
+		
+		JPanel pnlCenter = new JPanel();
+		pnlCenter.setBorder(new TitledBorder(null, "Danh s\u00E1ch c\u00F4ng nh\u00E2n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		add(pnlCenter, BorderLayout.CENTER);
+		
+		String header[] = {"Mã NV", "Họ tên", "Ngày vào làm", "Phòng ban", "Chức vụ", "HSL"};
+		DefaultTableModel model = new DefaultTableModel(header, 0);
+		pnlCenter.setLayout(new BorderLayout(0, 0));
+		JScrollPane scrollPane = new JScrollPane();
+		pnlCenter.add(scrollPane);
+		
+		table = new JTable(model);
+		scrollPane.setViewportView(table);
+
+	}
+}

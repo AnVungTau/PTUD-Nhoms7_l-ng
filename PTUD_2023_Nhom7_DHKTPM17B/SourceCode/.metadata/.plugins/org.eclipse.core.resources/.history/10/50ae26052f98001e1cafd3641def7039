@@ -1,0 +1,67 @@
+//package dao;
+//
+//import java.sql.Connection;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.util.ArrayList;
+//import java.util.Date;
+//
+//import connectDB.ConnectDB;
+//import entity.BangChamCongCongNhan;
+//import entity.LuongCongNhan;
+//import entity.LuongNhanVien;
+//import entity.NhanVien;
+//
+//public class LuongCongNhan_DAO {
+//	public ArrayList<LuongCongNhan> getLuongTheoNgay(Date ngayTinh){
+//		ArrayList<LuongCongNhan> dsLCN = new ArrayList<LuongCongNhan>();
+//		PreparedStatement sta = null;
+//		try {
+//			ConnectDB.getInstance();
+//			Connection con = ConnectDB.getConnection();
+//			String sql = "Select * from BangLuongNhanVien where maLuong like ?";
+//			sta = con.prepareStatement(sql);
+//			Date date = new Date(ngayTinh.getTime());
+//			sta.setString(1, "%" + date+ "%");
+//
+//			ResultSet rs = sta.executeQuery();
+//			while (rs.next()) {
+//				String maLuong = rs.getString("maLuong");
+//				String maCn = rs.getString("maCN");
+//				String maNV = rs.getString("maNV");
+//				int tienTroCap = rs.getInt("tienTroCap");
+//				int tienLuong = rs.getInt("tienLuong");
+//				String ghiChu = rs.getString("ghiChu");
+//
+//				NhanVien nv = new NhanVien(maNV);
+//				LuongCongNhan lnv = new LuongCongNhan(maLuong, null, nv, date, tienLuong, ghiChu);
+//
+//				dsLCN.add(lnv);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return dsLCN;
+//	}
+//	public int tinhLuongTheoCNVaNgay(String maCN, String ngayCham) {
+//		int tongLuong = 0;
+//		PreparedStatement sta = null;
+//		try {
+//			ConnectDB.getInstance();
+//			Connection con = ConnectDB.getConnection();
+//			String sql = "Select cccn.soLuongLam*cd.gia as tongLuong from BangChamCongCongNhan cccn join CongDoan cd on cccn.maCD = cd.maCD where macn = ? and ngayChamCong = ?";
+//			sta = con.prepareStatement(sql);
+//			sta.setString(1, maCN);
+//			sta.setString(2, ngayCham);
+//
+//			ResultSet rs = sta.executeQuery();
+//			while (rs.next()) {
+//				tongLuong = rs.getInt(0);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return tongLuong;
+//	}
+//}

@@ -1,0 +1,366 @@
+package gui;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+
+import dao.BangChamCongCongNhan_DAO;
+import dao.BangChamCongNhanVien_DAO;
+import dao.CongNhan_DAO;
+import dao.HopDong_DAO;
+import dao.NhanVien_DAO;
+import entity.CongNhan;
+import entity.HopDong;
+import entity.NhanVien;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+import com.toedter.calendar.JMonthChooser;
+import java.util.ArrayList;
+import java.util.Locale;
+import com.toedter.calendar.JYearChooser;
+
+/**
+ * @author Nguyễn Thành An
+ */
+
+public class ThongKe_Panel extends JPanel {
+
+	private static final long serialVersionUID = 1L;
+	private NhanVien_DAO nhanVien_DAO = new NhanVien_DAO();
+	private HopDong_DAO hopDong_DAO = new HopDong_DAO();
+	private CongNhan_DAO congNhan_DAO = new CongNhan_DAO();
+	private BangChamCongNhanVien_DAO ccnv_DAO = new BangChamCongNhanVien_DAO();
+	private BangChamCongCongNhan_DAO bcccn_dao = new BangChamCongCongNhan_DAO();
+	private JTextField txtHopDong;
+	private JTextField txtTongTien;
+	private JTextField txtCongNhan;
+	private JTextField txtNhanVien;
+	private JTextField txtTraTien;
+	private JButton btnLamMoi;
+	private JMonthChooser thangBatDau;
+	private JMonthChooser thangKetThuc;
+	private JYearChooser namKetThuc;
+	private JYearChooser namBatDau;
+
+	public ThongKe_Panel() {
+		thangBatDau = new JMonthChooser();
+		thangBatDau.setLocale(new Locale("vi"));
+		thangBatDau.setBounds(118, 11, 103, 25);
+		add(thangBatDau);
+
+		thangKetThuc = new JMonthChooser();
+		thangKetThuc.setLocale(new Locale("vi"));
+		thangKetThuc.setBounds(436, 11, 103, 25);
+		add(thangKetThuc);
+
+		JLabel lblNewLabel = new JLabel("Từ tháng");
+		lblNewLabel.setBounds(58, 11, 78, 25);
+		add(lblNewLabel);
+
+		namBatDau = new JYearChooser();
+		namBatDau.getSpinner().setFont(new Font("Tahoma", Font.BOLD, 12));
+		namBatDau.setBounds(232, 11, 60, 25);
+		add(namBatDau);
+
+		namKetThuc = new JYearChooser();
+		namKetThuc.getSpinner().setFont(new Font("Tahoma", Font.BOLD, 12));
+		namKetThuc.setBounds(550, 11, 60, 25);
+		add(namKetThuc);
+
+		int thangBD = thangBatDau.getMonth() + 1;
+		int thangKT = thangKetThuc.getMonth() + 1;
+		int namBD = namBatDau.getYear();
+		int namKT = namKetThuc.getYear();
+
+		int tongSoHopDong = hopDong_DAO.demSoLuongHopDong(thangBD, namBD, thangKT, namKT);
+		float tongTienHopDong = 0;
+
+		for (int nam = namBD; nam <= namKT; nam++) {
+			thangBD = (nam == namBD) ? thangBD : 1;
+			thangKT = (nam == namKT) ? thangKT : 12;
+			for (int thang = thangBD; thang <= thangKT; thang++) {
+				float tongTienHopDongThang = hopDong_DAO.layTongTienHopDongTuThangNam(thang, nam);
+				tongTienHopDong += tongTienHopDongThang;
+			}
+		}
+
+		float tongTien = 0;
+		ArrayList<NhanVien> dsNV = nhanVien_DAO.getAllNhanVien();
+		for (int nam = namBD; nam <= namKT; nam++) {
+			thangBD = (nam == namBD) ? thangBD : 1;
+			thangKT = (nam == namKT) ? thangKT : 12;
+			for (int thang = thangBD; thang <= thangKT; thang++) {
+				for (NhanVien nv : dsNV) {
+					int nguyenNgay = ccnv_DAO.soNgayLamNguyenNgay(nv, thang, nam);
+					int nuaNgay = ccnv_DAO.soNgayLamNuaNgay(nv, thang, nam);
+					int koPhep = ccnv_DAO.soNgayNghiKhongPhep(nv, thang, nam);
+					int soGioTangCa = ccnv_DAO.soGioTangCa(nv, thang, nam);
+					float phuCap = nv.getPhuCap();
+					float luongThang = tinhLuong(nguyenNgay, nuaNgay, soGioTangCa, phuCap, koPhep, nv.getHeSoLuong());
+					tongTien += luongThang;
+				}
+			}
+		}
+		
+		for (int nam = namBD; nam <= namKT; nam++) {
+			thangBD = (nam == namBD) ? thangBD : 1;
+			thangKT = (nam == namKT) ? thangKT : 12;
+			for (int thang = thangBD; thang <= thangKT; thang++) {
+				ArrayList<CongNhan> dsCN = bcccn_dao.getDanhSachTinhLuongTheoThangNam(thang, nam);
+				for (CongNhan cn : dsCN) {
+					tongTien += Float.parseFloat(cn.getGhiChu());
+				}
+			}
+		}
+		int soLuongCongNhan = congNhan_DAO.getAllCongNhans().size();
+		int soLuongNhanVien = nhanVien_DAO.getAllNhanVien().size();
+
+		// Tạo bộ dữ liệu cho biểu đồ cột
+		CategoryDataset barDataset = createBarDataset(tongSoHopDong, tongTienHopDong, soLuongCongNhan, soLuongNhanVien,
+				tongTien);
+
+		// Tạo biểu đồ cột và thêm vào panel
+		JFreeChart barChart = ChartFactory.createBarChart("Thống kê", "Loại dữ liệu", "Số liệu", barDataset);
+		setLayout(null);
+		ChartPanel barChartPanel = new ChartPanel(barChart);
+		barChartPanel.setBounds(10, 299, 715, 308);
+		barChartPanel.setPreferredSize(new Dimension(200, 200));
+		add(barChartPanel);
+
+		// Tạo bộ dữ liệu cho biểu đồ miền
+		DefaultPieDataset pieDataset = createPieDataset(tongTienHopDong, tongTien);
+
+		// Tạo biểu đồ miền và thêm vào panel
+		JFreeChart pieChart = ChartFactory.createPieChart("Phân phối tổng tiền", pieDataset, true, true, false);
+		ChartPanel pieChartPanel = new ChartPanel(pieChart);
+		pieChartPanel.setBounds(756, 11, 522, 270);
+		pieChartPanel.setPreferredSize(new Dimension(200, 200));
+		add(pieChartPanel);
+
+		CategoryDataset dataset = createDataset();
+
+		JFreeChart chart = ChartFactory.createBarChart("Top 3 Doanh Thu Hợp Đồng", "Hợp Đồng", "Doanh Thu", dataset);
+
+		// Thêm biểu đồ cột vào giao diện
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setBounds(756, 299, 522, 308);
+		chartPanel.setPreferredSize(new Dimension(200, 200));
+		add(chartPanel);
+
+		JLabel lblHopDong = new JLabel("Tổng số hợp đồng:");
+		lblHopDong.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblHopDong.setBounds(58, 57, 180, 35);
+		add(lblHopDong);
+
+		JLabel lblTongTien = new JLabel("Tổng tiền hợp đồng:");
+		lblTongTien.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTongTien.setBounds(58, 98, 216, 35);
+		add(lblTongTien);
+
+		JLabel lblCongNhan = new JLabel("Số lượng công nhân:");
+		lblCongNhan.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblCongNhan.setBounds(58, 139, 226, 35);
+		add(lblCongNhan);
+
+		JLabel lblNhanVien = new JLabel("Số lượng nhân viên:");
+		lblNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblNhanVien.setBounds(58, 180, 216, 35);
+		add(lblNhanVien);
+
+		JLabel lblTratien = new JLabel("Tổng tiền trả lương:");
+		lblTratien.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblTratien.setBounds(58, 221, 226, 35);
+		add(lblTratien);
+
+		txtHopDong = new JTextField();
+		txtHopDong.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		txtHopDong.setEditable(false);
+		txtHopDong.setBounds(285, 57, 137, 35);
+		txtHopDong.setText(String.valueOf(tongSoHopDong));
+		add(txtHopDong);
+		txtHopDong.setColumns(10);
+
+		txtTongTien = new JTextField();
+		txtTongTien.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		txtTongTien.setEditable(false);
+		txtTongTien.setColumns(10);
+		txtTongTien.setBounds(285, 98, 248, 35);
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		String formattedTongTien = currencyFormat.format(tongTienHopDong);
+		txtTongTien.setText(String.valueOf(formattedTongTien));
+		add(txtTongTien);
+
+		txtCongNhan = new JTextField();
+		txtCongNhan.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		txtCongNhan.setEditable(false);
+		txtCongNhan.setColumns(10);
+		txtCongNhan.setBounds(285, 139, 137, 35);
+		txtCongNhan.setText(String.valueOf(soLuongCongNhan));
+		add(txtCongNhan);
+
+		txtNhanVien = new JTextField();
+		txtNhanVien.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		txtNhanVien.setEditable(false);
+		txtNhanVien.setColumns(10);
+		txtNhanVien.setBounds(285, 180, 137, 35);
+		txtNhanVien.setText(String.valueOf(soLuongNhanVien));
+		add(txtNhanVien);
+
+		txtTraTien = new JTextField();
+		txtTraTien.setFont(new Font("Tahoma", Font.PLAIN, 30));
+		txtTraTien.setEditable(false);
+		txtTraTien.setColumns(10);
+		txtTraTien.setBounds(285, 221, 248, 35);
+		NumberFormat tratien = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		String tratienformat = tratien.format(tongTien);
+		txtTraTien.setText(String.valueOf(tratienformat));
+		add(txtTraTien);
+
+		JLabel lblnThng = new JLabel("Đến tháng");
+		lblnThng.setBounds(374, 11, 78, 25);
+		add(lblnThng);
+
+		btnLamMoi = new JButton("");
+		btnLamMoi
+				.setIcon(new ImageIcon(ThongKe_Panel.class.getResource("/img/Hopstarter-Button-Button-Reload.24.png")));
+		btnLamMoi.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnLamMoi.setBackground(Color.WHITE);
+		btnLamMoi.setBounds(680, 11, 30, 30);
+		add(btnLamMoi);
+
+		btnLamMoi.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refreshChart();
+			}
+		});
+	}
+
+	public float tinhLuong(int a, int b, int c, float d, int e, float f) {
+		return (300000 * a * f + 150000 * b * f + 45000 * c + d - 100000 * e);
+	}
+
+	private void refreshChart() {
+		int soLuongCongNhan = congNhan_DAO.getAllCongNhans().size();
+		int soLuongNhanVien = nhanVien_DAO.getAllNhanVien().size();
+
+		int thangBD = thangBatDau.getMonth() + 1;
+		int thangKT = thangKetThuc.getMonth() + 1;
+		int namBD = namBatDau.getYear();
+		int namKT = namKetThuc.getYear();
+		
+		int tongSoHopDong = hopDong_DAO.demSoLuongHopDong(thangBD, namBD, thangKT, namKT);
+
+		float tongTienHopDong = 0;
+		for (int nam = namBD; nam <= namKT; nam++) {
+			thangBD = (nam == namBD) ? thangBD : 1;
+			thangKT = (nam == namKT) ? thangKT : 12;
+			for (int thang = thangBD; thang <= thangKT; thang++) {
+				float tongTienHopDongThang = hopDong_DAO.layTongTienHopDongTuThangNam(thang, nam);
+				tongTienHopDong += tongTienHopDongThang;
+			}
+		}
+		float tongTien = 0;
+		ArrayList<NhanVien> dsNV = nhanVien_DAO.getAllNhanVien();
+		for (int nam = namBD; nam <= namKT; nam++) {
+			thangBD = (nam == namBD) ? thangBD : 1;
+			thangKT = (nam == namKT) ? thangKT : 12;
+			for (int thang = thangBD; thang <= thangKT; thang++) {
+				for (NhanVien nv : dsNV) {
+					int nguyenNgay = ccnv_DAO.soNgayLamNguyenNgay(nv, thang, nam);
+					int nuaNgay = ccnv_DAO.soNgayLamNuaNgay(nv, thang, nam);
+					int koPhep = ccnv_DAO.soNgayNghiKhongPhep(nv, thang, nam);
+					int soGioTangCa = ccnv_DAO.soGioTangCa(nv, thang, nam);
+					float phuCap = nv.getPhuCap();
+					float luongThang = tinhLuong(nguyenNgay, nuaNgay, soGioTangCa, phuCap, koPhep, nv.getHeSoLuong());
+					tongTien += luongThang;
+				}
+			}
+		}
+		CategoryDataset dataset = createDataset();
+		JFreeChart chart = ChartFactory.createBarChart("Top 3 Doanh Thu Hợp Đồng", "Hợp Đồng", "Doanh Thu", dataset);
+
+		DefaultPieDataset pieDataset = createPieDataset(tongTienHopDong, tongTien);
+		JFreeChart pieChart = ChartFactory.createPieChart("Phân phối tổng tiền", pieDataset, true, true, false);
+		CategoryDataset barDataset = createBarDataset(tongSoHopDong, tongTienHopDong, soLuongCongNhan, soLuongNhanVien,
+				tongTien);
+
+		// Tạo biểu đồ cột và thêm vào panel
+		JFreeChart barChart = ChartFactory.createBarChart("Thống kê", "Loại dữ liệu", "Số liệu", barDataset);
+
+		// Xóa toàn bộ component trên panel biểu đồ
+		for (Component component : getComponents()) {
+			if (component instanceof ChartPanel) {
+				remove(component);
+			}
+		}
+
+		// Thêm biểu đồ cột mới vào giao diện
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setBounds(756, 299, 522, 308);
+		chartPanel.setPreferredSize(new Dimension(200, 200));
+		add(chartPanel);
+
+		ChartPanel barChartPanel = new ChartPanel(barChart);
+		barChartPanel.setBounds(10, 299, 715, 308);
+		barChartPanel.setPreferredSize(new Dimension(200, 200));
+		add(barChartPanel);
+
+		ChartPanel pieChartPanel = new ChartPanel(pieChart);
+		pieChartPanel.setBounds(756, 11, 522, 270);
+		pieChartPanel.setPreferredSize(new Dimension(200, 200));
+		add(pieChartPanel);
+
+		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		String formattedTongTien = currencyFormat.format(tongTienHopDong);
+		txtTongTien.setText(String.valueOf(formattedTongTien));
+
+		NumberFormat tratien = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+		String tratienformat = tratien.format(tongTien);
+		txtTraTien.setText(String.valueOf(tratienformat));
+
+		// Cập nhật lại giao diện
+		revalidate();
+		repaint();
+
+	}
+
+	private CategoryDataset createDataset() {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+		// Sử dụng phương thức getTop3DoanhThuHopDong để lấy danh sách top 3 hợp đồng
+		ArrayList<HopDong> top3DoanhThuHopDong = hopDong_DAO.getTop3DoanhThuHopDong();
+
+		// Thêm dữ liệu vào dataset
+		for (HopDong hopDong : top3DoanhThuHopDong) {
+			dataset.addValue(hopDong.getTongTienHD(), "Doanh Thu", hopDong.getTenHD());
+		}
+
+		return dataset;
+	}
+
+	private CategoryDataset createBarDataset(int tongSoHopDong, double tongTien, int soLuongCongNhan,
+			int soLuongNhanVien, double tongTienTraLuong) {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.addValue(tongSoHopDong, "Tổng số hợp đồng", "Tổng số hợp đồng");
+		dataset.addValue(tongTien, "Tổng tiền", "Tổng tiền");
+		dataset.addValue(soLuongCongNhan, "Số lượng công nhân", "Số lượng công nhân");
+		dataset.addValue(soLuongNhanVien, "Số lượng nhân viên", "Số lượng nhân viên");
+		dataset.addValue(tongTienTraLuong, "Tổng tiền trả lương", "Tổng tiền trả lương");
+		return dataset;
+	}
+
+	private DefaultPieDataset createPieDataset(double tongTien, double tongTienTraLuong) {
+		DefaultPieDataset dataset = new DefaultPieDataset();
+		dataset.setValue("Tổng tiền", tongTien);
+		dataset.setValue("Tổng tiền trả lương", tongTienTraLuong);
+		return dataset;
+	}
+}

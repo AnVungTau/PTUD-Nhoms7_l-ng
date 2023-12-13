@@ -1,0 +1,11 @@
+INDEX VERSION 1.134+D:\HocKy5\PTUD\PTUD_2023_Nhom7_DHKTPM17B\SourceCode\.metadata\.plugins\org.eclipse.jdt.core
+2551294792.index
+775231649.index
+1460510817.index
+713960268.index
+3413725848.index
+4074331290.index
+1865797976.index
+3605501883.index
+2241374514.index
+1095960264.index

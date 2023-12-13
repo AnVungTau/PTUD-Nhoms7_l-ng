@@ -1,0 +1,453 @@
+package gui;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import dao.NhanVien_DAO;
+import dao.OTP_DAO;
+import dao.TaiKhoan_DAO;
+import util.GuiEmail;
+import util.Keycode;
+import util.MaHoa;
+import util.QuanLyMaOTP;
+
+import java.awt.Color;
+import java.awt.CardLayout;
+import java.awt.BorderLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.awt.event.ActionEvent;
+import java.awt.Insets;
+import javax.swing.SwingConstants;
+//pass: nhquan2622003@
+
+/**
+ * @author Nguyễn Hồng Quân
+ */
+public class DangNhap extends JFrame implements ActionListener{
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txtMa;
+	private JPasswordField txtMatKhau;
+	private JTextField txtEmail;
+	private JPanel pnlDangNhap;
+	private JPanel pnlQuenMatKhau;
+	private JButton btnQuayLai;
+	private JButton btnQuenMatKhau;
+	private JButton btnDangNhap;
+	private TaiKhoan_DAO taiKhoan_dao = new TaiKhoan_DAO();
+	private NhanVien_DAO nhanVien_dao = new NhanVien_DAO();
+	private OTP_DAO otp_dao = new OTP_DAO();
+	private JTextField txtOTP;
+	private JButton btnXacNhanEmail;
+	private JPanel pnlXacThuc;
+	private JButton btnQuayLaiDN;
+	private JButton btnQuayLaiQMK;
+	private JButton btnQuayLaiXacThuc;
+	private JButton btnXacNhanOTP;
+
+	public DangNhap() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 700, 350);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 0, 128));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		setResizable(false);
+		URL urlicon = DangNhap.class.getResource("/img/logo_icon.png");
+		ImageIcon icon = new ImageIcon(urlicon);
+		setIconImage(icon.getImage());
+		setTitle("QUẢN LÝ LƯƠNG");
+		
+		JPanel pnlLeft = new JPanel();
+		pnlLeft.setBackground(new Color(255, 255, 255));
+		pnlLeft.setBounds(0, 0, 350, 313);
+		contentPane.add(pnlLeft);
+		pnlLeft.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblHinhAnh = new JLabel("");
+		lblHinhAnh.setHorizontalAlignment(SwingConstants.CENTER);
+		URL urlhinhAnh = DangNhap.class.getResource("/img/SplashScreen.png");
+		lblHinhAnh.setIcon(new ImageIcon(urlhinhAnh));
+		pnlLeft.add(lblHinhAnh);
+		
+		JPanel pnlRight = new JPanel();
+		pnlRight.setBounds(351, 0, 335, 313);
+		contentPane.add(pnlRight);
+		pnlRight.setLayout(new CardLayout(0, 0));
+		
+		pnlDangNhap = new JPanel();
+		pnlDangNhap.setBackground(new Color(255, 255, 255));
+		pnlRight.add(pnlDangNhap, "name_530517731490100");
+		pnlDangNhap.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTopDN = new JPanel();
+		pnlTopDN.setBackground(new Color(5,10,48,255));
+		pnlDangNhap.add(pnlTopDN, BorderLayout.NORTH);
+		
+		JLabel lblDangNhap = new JLabel("Đăng nhập");
+		lblDangNhap.setForeground(new Color(255, 255, 255));
+		lblDangNhap.setFont(new Font("Tahoma", Font.BOLD, 18));
+		pnlTopDN.add(lblDangNhap);
+		
+		JPanel pnlCenterDN = new JPanel();
+		pnlCenterDN.setBackground(new Color(5,10,48,255));
+		pnlDangNhap.add(pnlCenterDN, BorderLayout.CENTER);
+		pnlCenterDN.setLayout(null);
+		
+		JLabel lblMa = new JLabel("Mã NV (Mã TK)");
+		lblMa.setForeground(new Color(255, 255, 255));
+		lblMa.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMa.setBounds(55, 50, 108, 20);
+		pnlCenterDN.add(lblMa);
+		
+		txtMa = new JTextField();
+		txtMa.setText("NV000001");
+		txtMa.setMargin(new Insets(2, 5, 2, 2));
+		txtMa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMa.setBounds(55, 70, 220, 28);
+		pnlCenterDN.add(txtMa);
+		txtMa.setColumns(10);
+		
+		JLabel lblMatKhau = new JLabel("Mật khẩu");
+		lblMatKhau.setForeground(new Color(255, 255, 255));
+		lblMatKhau.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblMatKhau.setBounds(55, 100, 87, 20);
+		pnlCenterDN.add(lblMatKhau);
+		
+		btnDangNhap = new JButton("Đăng nhập");
+		btnDangNhap.setForeground(new Color(255, 255, 255));
+		btnDangNhap.setBackground(new Color(2,125,183));
+		btnDangNhap.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnDangNhap.setBounds(55, 165, 220, 25);
+		pnlCenterDN.add(btnDangNhap);
+		
+		btnQuenMatKhau = new JButton("Quên mật khẩu ?");
+		btnQuenMatKhau.setBackground(new Color(255, 255, 255));
+		btnQuenMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnQuenMatKhau.setBounds(55, 210, 115, 20);
+		pnlCenterDN.add(btnQuenMatKhau);
+		
+		txtMatKhau = new JPasswordField();
+		txtMatKhau.setText("nhquan2622003@");
+		txtMatKhau.setMargin(new Insets(2, 5, 2, 2));
+		txtMatKhau.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtMatKhau.setEchoChar('*');
+		txtMatKhau.setBounds(55, 120, 220, 28);
+		pnlCenterDN.add(txtMatKhau);
+		
+		pnlQuenMatKhau = new JPanel();
+		pnlRight.add(pnlQuenMatKhau, "name_530532394773100");
+		pnlQuenMatKhau.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTop = new JPanel();
+		pnlTop.setBackground(new Color(5,10,48,255));
+		pnlQuenMatKhau.add(pnlTop, BorderLayout.NORTH);
+		
+		JLabel lblQuenMatKhau = new JLabel("Quên mật khẩu");
+		lblQuenMatKhau.setForeground(new Color(255, 255, 255));
+		lblQuenMatKhau.setFont(new Font("Tahoma", Font.BOLD, 18));
+		pnlTop.add(lblQuenMatKhau);
+		
+		JPanel pnlCenter = new JPanel();
+		pnlCenter.setBackground(new Color(5,10,48,255));
+		pnlQuenMatKhau.add(pnlCenter, BorderLayout.CENTER);
+		pnlCenter.setLayout(null);
+		
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setForeground(new Color(255, 255, 255));
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblEmail.setBounds(55, 50, 45, 20);
+		pnlCenter.add(lblEmail);
+		
+		txtEmail = new JTextField();
+		txtEmail.setMargin(new Insets(2, 5, 2, 2));
+		txtEmail.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtEmail.setBounds(55, 70, 220, 28);
+		pnlCenter.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		btnXacNhanEmail = new JButton("Xác nhận");
+		btnXacNhanEmail.setEnabled(false);
+		btnXacNhanEmail.setForeground(new Color(255, 255, 255));
+		btnXacNhanEmail.setBackground(new Color(2,125,183));
+		btnXacNhanEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXacNhanEmail.setBounds(55, 135, 220, 25);
+		pnlCenter.add(btnXacNhanEmail);
+		
+		btnQuayLai = new JButton("Đăng nhập");
+		btnQuayLai.setBackground(new Color(255, 255, 255));
+		btnQuayLai.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnQuayLai.setBounds(55, 210, 110, 20);
+		pnlCenter.add(btnQuayLai);
+		
+		btnQuayLaiXacThuc = new JButton("Nhập mã OTP");
+		btnQuayLaiXacThuc.setEnabled(false);
+		btnQuayLaiXacThuc.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnQuayLaiXacThuc.setBackground(Color.WHITE);
+		btnQuayLaiXacThuc.setBounds(170, 210, 110, 20);
+		pnlCenter.add(btnQuayLaiXacThuc);
+		
+		pnlXacThuc = new JPanel();
+		pnlXacThuc.setBackground(new Color(5,10,48,255));
+		pnlRight.add(pnlXacThuc, "name_117663930872200");
+		pnlXacThuc.setLayout(new BorderLayout(0, 0));
+		
+		JPanel pnlTopXT = new JPanel();
+		pnlTopXT.setBackground(new Color(5, 10, 48, 255));
+		pnlXacThuc.add(pnlTopXT, BorderLayout.NORTH);
+		
+		JLabel lblXacThuc = new JLabel("Xác nhận OTP");
+		lblXacThuc.setForeground(Color.WHITE);
+		lblXacThuc.setFont(new Font("Tahoma", Font.BOLD, 18));
+		pnlTopXT.add(lblXacThuc);
+		
+		JPanel pnlCenterXT = new JPanel();
+		pnlCenterXT.setBackground(new Color(5, 10, 48, 255));
+		pnlXacThuc.add(pnlCenterXT, BorderLayout.CENTER);
+		pnlCenterXT.setLayout(null);
+		
+		JLabel lblOTP = new JLabel("Mã OTP");
+		lblOTP.setBounds(55, 50, 84, 20);
+		lblOTP.setForeground(Color.WHITE);
+		lblOTP.setFont(new Font("Tahoma", Font.BOLD, 12));
+		pnlCenterXT.add(lblOTP);
+		
+		txtOTP = new JTextField();
+		txtOTP.setBounds(55, 70, 220, 28);
+		txtOTP.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtOTP.setColumns(10);
+		pnlCenterXT.add(txtOTP);
+		
+		btnXacNhanOTP = new JButton("Xác nhận");
+		btnXacNhanOTP.setEnabled(false);
+		btnXacNhanOTP.setBounds(55, 135, 220, 25);
+		btnXacNhanOTP.setForeground(Color.WHITE);
+		btnXacNhanOTP.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXacNhanOTP.setBackground(new Color(2,125,183));
+		pnlCenterXT.add(btnXacNhanOTP);
+		
+		btnQuayLaiDN = new JButton("Đăng nhập");
+		btnQuayLaiDN.setBounds(55, 210, 110, 20);
+		btnQuayLaiDN.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnQuayLaiDN.setBackground(Color.WHITE);
+		pnlCenterXT.add(btnQuayLaiDN);
+		
+		btnQuayLaiQMK = new JButton("Nhập lại email");
+		btnQuayLaiQMK.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnQuayLaiQMK.setBackground(Color.WHITE);
+		btnQuayLaiQMK.setBounds(170, 210, 110, 20);
+		pnlCenterXT.add(btnQuayLaiQMK);
+		setLocationRelativeTo(null);
+		
+		txtEmail.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				btnXacNhanEmail.setEnabled(validDataEmail());
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				btnXacNhanEmail.setEnabled(validDataEmail());
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		txtOTP.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				btnXacNhanOTP.setEnabled(validDataOTP());
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				btnXacNhanOTP.setEnabled(validDataOTP());
+				
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		btnQuenMatKhau.addActionListener(this);
+		btnDangNhap.addActionListener(this);
+		btnQuayLai.addActionListener(this);
+		btnXacNhanEmail.addActionListener(this);
+		btnQuayLaiDN.addActionListener(this);
+		btnQuayLaiQMK.addActionListener(this);
+		btnQuayLaiXacThuc.addActionListener(this);
+		btnXacNhanOTP.addActionListener(this);
+	}
+	
+	private boolean validDataEmail() {
+		String email = txtEmail.getText().trim();
+		if(email.isEmpty() || email.length() <= 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validDataOTP() {
+		String otp = txtOTP.getText().trim();
+		if(otp.isEmpty() || otp.length() < 6 || otp.length() > 6) {
+			return false;
+		}
+		return true;
+	}
+	
+	private void kiemTraDangNhap() {
+		
+		String maTK = txtMa.getText().trim();
+		char[] passwordChars = txtMatKhau.getPassword();
+		String matKhau = new String(passwordChars);
+		new MaHoa();
+		String maHoaMatKhau = MaHoa.toSHA1(matKhau);
+		//Kiểm tra đăng nhập
+		if(taiKhoan_dao.kiemTraDangNhap(maTK, maHoaMatKhau)) {
+			Keycode.setTaiKhoan(taiKhoan_dao.getTaiKhoanTheoMa(maTK));
+			this.dispose();
+			new ManHinhChinh().setVisible(true);
+		}else {
+			JOptionPane.showMessageDialog(this, "Thông tin đăng nhập không chính xác !");
+		}
+		
+	}
+	
+	private boolean kiemTraEmail() {
+		String email = txtEmail.getText().trim();
+		if(email.length() <= 0){
+			return false;
+		}
+		if(nhanVien_dao.kiemTraSuTonTaiDuyNhatCuaEmail(email) == false) {
+			return false;
+		}
+		return true;
+		
+	}
+	
+	private boolean kiemTraOTP() {
+		String maOtp = txtOTP.getText().trim();
+		if(maOtp.length() <= 0){
+			return false;
+		}
+		if(otp_dao.kiemTraSuTonTaiMaOTP(maOtp) == false) {
+			return false;
+		}
+		return true;
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		
+		if(o.equals(btnQuayLai)) {
+			pnlDangNhap.setVisible(true);
+			pnlQuenMatKhau.setVisible(false);
+		}
+		
+		if(o.equals(btnQuenMatKhau)) {
+			pnlDangNhap.setVisible(false);
+			pnlQuenMatKhau.setVisible(true);
+		}
+		
+		if(o.equals(btnDangNhap)) {
+			kiemTraDangNhap();
+		}
+		
+		if(o.equals(btnQuayLaiDN)) {
+			pnlDangNhap.setVisible(true);
+			pnlQuenMatKhau.setVisible(false);
+			pnlXacThuc.setVisible(false);
+		}
+		
+		if(o.equals(btnQuayLaiQMK)) {
+			pnlDangNhap.setVisible(false);
+			pnlQuenMatKhau.setVisible(true);
+			pnlXacThuc.setVisible(false);
+		}
+		
+		if(o.equals(btnQuayLaiXacThuc)) {
+			pnlDangNhap.setVisible(false);
+			pnlQuenMatKhau.setVisible(false);
+			pnlXacThuc.setVisible(true);
+		}
+		
+		if(o.equals(btnXacNhanEmail)) {
+			
+			// Kiểm tra email nhân viên có tồn tại trong hệ thống hay không?
+			if(kiemTraEmail() == false) {
+				JOptionPane.showMessageDialog(this, "Email này không tồn tại trong hệ thống!");
+				return;
+			}
+			
+			// Tạo mã OTP và thêm vào database
+			String maOTP = QuanLyMaOTP.generateUniqueOTP();
+			otp_dao.them(maOTP);
+			
+			// Gửi mã OTP cho người dùng qua email
+			String email = txtEmail.getText().trim();
+			if(GuiEmail.send(email, maOTP) == false) {
+				JOptionPane.showMessageDialog(this, "Xảy ra lỗi khi gửi mail !");
+				return;
+			}else {
+				JOptionPane.showMessageDialog(this, "Mã OTP đang được gửi...Vui lòng kiểm tra email của bạn !");
+			}
+			
+			btnXacNhanEmail.setEnabled(false);
+			pnlQuenMatKhau.setVisible(false);
+			pnlXacThuc.setVisible(true);
+			btnQuayLaiXacThuc.setEnabled(true);
+		}
+		
+		if(o.equals(btnXacNhanOTP)) {
+			// nhquan2622003@gmail.com
+			
+			// Kiểm tra mã OTP có tồn tại trong database không? 
+			if(kiemTraOTP() == false) {
+				JOptionPane.showMessageDialog(this, "Mã OTP không chính xác!");
+				return;
+			}
+			
+			// Đặt lại mật khẩu là 111111
+			String matKhauMoi = MaHoa.toSHA1("111111");
+			String email = txtEmail.getText().trim();
+			String otp = txtOTP.getText().trim();
+			if(taiKhoan_dao.datLaiMatKhau(email, matKhauMoi) == false) {
+				return;
+			}else {
+				JOptionPane.showMessageDialog(this, "Mật khẩu mới là: 111111\nVui lòng đăng nhập và đổi mật khẩu");
+				// Xóa otp trong database
+				otp_dao.xoa(otp);
+				// Chuyển sang giao diện đăng nhập
+				pnlDangNhap.setVisible(true);
+				pnlQuenMatKhau.setVisible(false);
+				pnlXacThuc.setVisible(false);
+			}
+		}
+	}
+}

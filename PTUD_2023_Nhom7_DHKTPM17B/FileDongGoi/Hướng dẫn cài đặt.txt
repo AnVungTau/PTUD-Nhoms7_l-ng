@@ -1,0 +1,17 @@
+1. Tạo cấu trúc thư mục:
+	D:\HocKy5\PTUD\Data
+
+2. Thực thi file dữ liệu (ScriptDataTongQuat.sql):
+	PTUD_2023_Nhom7_DHKTPM17B\SourceCode\Data > ScriptDataTongQuat.sql
+
+3. Chạy file đóng gói:
+	PTUD_2023_Nhom7_DHKTPM17B\FileDongGoi\AppSALAR_Nhom7.jar
+
+4. Đăng nhập
+Tài khoản: NV000001
+Mật khẩu: nhquan2622003@
+
+Chú ý: Trường hợp không mở được file .jar ở folder FileDongGoi
+Qúy Thấy Cô muốn chạy chương trình có thể mở Eclipse:
+
+File > Open project from system> QuanLyLuongSanPham_Nhom7 > mở package application > run: Application.java
